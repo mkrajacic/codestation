@@ -8,12 +8,9 @@ class Language
     private $name;
     private $description;
 
-    public function __construct($db, $id=null, $name=null, $description=null)
+    public function __construct($db)
     {
         $this->conn = $db;
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
     }
 
     public function get_id()
@@ -64,8 +61,8 @@ class Language
 
         $stmt = $this->conn->prepare($query);
 
-        $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->name = trim(htmlspecialchars(strip_tags($this->name)));
+        $this->description = trim(htmlspecialchars(strip_tags($this->description)));
 
         $stmt->bindParam(1, $this->name);
         $stmt->bindParam(2, $this->description);
@@ -92,8 +89,8 @@ class Language
 
                 $stmt = $this->conn->prepare($query);
 
-                $this->name = htmlspecialchars(strip_tags($this->name));
-                $this->description = htmlspecialchars(strip_tags($this->description));
+                $this->name = trim(htmlspecialchars(strip_tags($this->name)));
+                $this->description = trim(htmlspecialchars(strip_tags($this->description)));
 
                 $stmt->bindParam(1, $this->name);
                 $stmt->bindParam(2, $this->description);

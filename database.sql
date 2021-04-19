@@ -90,19 +90,25 @@ CREATE TABLE user_session_question (
 );
 
 CREATE TABLE language_image (
+	id INT AUTO_INCREMENT NOT NULL,
 	language_id INT NOT NULL,
 	image VARCHAR(255),
+	PRIMARY KEY(id),
 	FOREIGN KEY (language_id) REFERENCES language(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE lesson_image (
+	id INT AUTO_INCREMENT NOT NULL,
 	lesson_id INT NOT NULL,
 	image VARCHAR(255),
+	PRIMARY KEY(id),
 	FOREIGN KEY (lesson_id) REFERENCES lesson(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE question_image (
+	id INT AUTO_INCREMENT NOT NULL,
 	question_id INT NOT NULL,
 	image VARCHAR(255),
+	PRIMARY KEY(id),
 	FOREIGN KEY (question_id) REFERENCES question(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
