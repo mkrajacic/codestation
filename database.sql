@@ -1,0 +1,108 @@
+CREATE DATABASE coding;
+
+CREATE TABLE language (
+	id INT AUTO_INCREMENT NOT NULL,
+	name VARCHAR(25) NOT NULL,
+	description TEXT NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE lesson (
+	id INT AUTO_INCREMENT NOT NULL, 
+	name VARCHAR(100) NOT NULL,
+	description TEXT NOT NULL,
+	language_id INT NOT NULL,
+	PRIMARY KEY (id), 
+	FOREIGN KEY (language_id) REFERENCES language(id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE question_type (
+	id INT AUTO_INCREMENT NOT NULL,
+	type VARCHAR(20) NOT NULL,
+	PRIMARY KEY (id)
+);
+ 
+CREATE TABLE question (
+	id INT AUTO_INCREMENT NOT NULL,
+	question TEXT NOT NULL,
+	lesson_id INT NOT NULL,
+	question_type INT NOT NULL,
+	PRIMARY KEY (id), 
+	FOREIGN KEY (lesson_id) REFERENCES lesson(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	FOREIGN KEY (question_type) REFERENCES question_type(id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE answer (
+	id INT AUTO_INCREMENT NOT NULL,
+	answer TEXT NOT NULL,
+	question_id INT NOT NULL,
+	correct TINYINT(1) NOT NULL DEFAULT 0,
+	PRIMARY KEY (id), 
+	FOREIGN KEY (question_id) REFERENCES question(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE user_role (
+  code VARCHAR(3) NOT NULL,
+  name VARCHAR(15) NOT NULL,
+  PRIMARY KEY (code)
+);
+
+CREATE TABLE user_profile (
+	id INT AUTO_INCREMENT NOT NULL,
+	username VARCHAR(15) NOT NULL,
+	password VARCHAR(32) NOT NULL,
+	image VARCHAR(255),
+	role_code VARCHAR(3) NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY (role_code) REFERENCES user_role(code) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE user_session (
+	id INT AUTO_INCREMENT NOT NULL,
+	session_id VARCHAR(40) NOT NULL,
+	user_id INT NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY (user_id) REFERENCES user_profile(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE user_session_language (
+	user_session_id INT NOT NULL,
+	language_id INT NOT NULL,
+	completed TINYINT(1) NOT NULL DEFAULT 0,
+	FOREIGN KEY (user_session_id) REFERENCES user_session(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (language_id) REFERENCES language(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE user_session_lesson (
+	user_session_id INT NOT NULL,
+	lesson_id INT NOT NULL,
+	completed TINYINT(1) NOT NULL DEFAULT 0,
+	FOREIGN KEY (user_session_id) REFERENCES user_session(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (lesson_id) REFERENCES lesson(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE user_session_question (
+	user_session_id INT NOT NULL,
+	question_id INT NOT NULL,
+	answered TINYINT(1) NOT NULL DEFAULT 0,
+	FOREIGN KEY (user_session_id) REFERENCES user_session(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (question_id) REFERENCES question(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE language_image (
+	language_id INT NOT NULL,
+	image VARCHAR(255),
+	FOREIGN KEY (language_id) REFERENCES language(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE lesson_image (
+	lesson_id INT NOT NULL,
+	image VARCHAR(255),
+	FOREIGN KEY (lesson_id) REFERENCES lesson(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE question_image (
+	question_id INT NOT NULL,
+	image VARCHAR(255),
+	FOREIGN KEY (question_id) REFERENCES question(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
