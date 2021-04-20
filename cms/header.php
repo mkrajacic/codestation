@@ -13,7 +13,7 @@
 <?php
     include_once("functions.php");
 ?>
-
+<body class="bg-dark text-white">
 <div class="d-flex" id="wrapper">
 
 <?php
@@ -21,6 +21,5 @@
       $menu_links = array('languages.php','lessons.php','questions.php','users.php','roles.php','logout.php');
       sidemenu($menu_items,$menu_links);
 ?>
-    
+  
     <div id="page-content-wrapper">
-<body>

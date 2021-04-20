@@ -6,6 +6,7 @@ class Language
 
     private $id;
     private $name;
+    private $image;
     private $description;
 
     public function __construct($db)
@@ -33,6 +34,16 @@ class Language
         $this->name = $name;
     }
 
+    public function get_image()
+    {
+        return $this->image;
+    }
+
+    public function set_image($image)
+    {
+        $this->image = $image;
+    }
+
     public function get_description()
     {
         return $this->description;
@@ -43,29 +54,77 @@ class Language
         $this->description = $desc;
     }
 
-    public function getLanguages() {
+    public function isUniqueName()
+    {
+        $query = "SELECT l.id,l.name FROM " . $this->table . " l WHERE name=?";
 
-        $query = "SELECT l.id, l.name, l.description FROM " . $this->table . " l ORDER BY l.id";
-            
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->name);
+
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+
+                $lang_id = $this->id;
+
+                while ($language_row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    extract($language_row);
+
+                    if (!empty($lang_id)) {
+                        if($lang_id == $id) {
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    } 
+                }
+            } else {
+                return true;
+            }
+        }
+    }
+
+    public function getLanguages()
+    {
+
+        $query = "SELECT l.id, l.name, l.description, l.image FROM " . $this->table . " l ORDER BY l.id";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
         return $stmt;
+    }
 
+    public function getLanguageById($id)
+    {
+
+        $query = "SELECT l.id, l.name, l.description, l.image FROM " . $this->table . " l WHERE l.id=?";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $id);
+
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                return $stmt;
+            } else {
+                return false;
+            }
+        }
     }
 
     public function createLanguage()
     {
 
-        $query = "INSERT INTO " . $this->table . " (name,description) VALUES (?,?)";
+        $query = "INSERT INTO " . $this->table . " (name,description,image) VALUES (?,?,?)";
 
         $stmt = $this->conn->prepare($query);
 
         $this->name = trim(htmlspecialchars(strip_tags($this->name)));
         $this->description = trim(htmlspecialchars(strip_tags($this->description)));
+        $this->image = trim(htmlspecialchars(strip_tags($this->image)));
 
         $stmt->bindParam(1, $this->name);
         $stmt->bindParam(2, $this->description);
+        $stmt->bindParam(3, $this->image);
 
         if ($stmt->execute()) {
             return true;
@@ -102,6 +161,23 @@ class Language
             }
         }
 
+        return false;
+    }
+
+    public function deleteLanguage()
+    {
+
+        $query = "DELETE FROM " . $this->table . " WHERE id=?";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->id = trim(htmlspecialchars(strip_tags($this->id)));
+
+        $stmt->bindParam(1, $this->id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
         return false;
     }
 }

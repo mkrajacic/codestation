@@ -17,10 +17,35 @@ function connect()
 ?>
 
 <?php
+function nav($menu_items, $menu_links)
+{
+?>
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark border-bottom">
+    <button class="btn btn-pink" id="menu-toggle">Sakrij meni</button>
+    <?php
+    submenu($menu_items, $menu_links);
+    ?>
+  </nav>
+<?php
+}
+?>
+
+<?php
+function delete_confirmation($deleted_item_label, $deleted_item, $delete_url, $delete_button)
+{
+?>
+  <p>Jeste li sigurni da želite obrisati . <?php echo $deleted_item_label . " '" . $deleted_item . "' "; ?>?</p>
+  <a class="btn btn-pink" href="<?php echo $delete_url ?>" role="button"><?php echo $delete_button ?></a>
+  <button type="button" onclick="window.history.go(-1);" class="btn btn-outline-light-pink">Odustani</button>
+<?php
+}
+?>
+
+<?php
 function sidemenu($menu_items, $menu_links)
 {
 ?>
-  <div class="bg-light border-right" id="sidebar-wrapper">
+  <div class="bg-dark border-right" id="sidebar-wrapper">
     <div class="sidebar-heading">MK</div>
     <div class="list-group list-group-flush">
 
@@ -29,7 +54,7 @@ function sidemenu($menu_items, $menu_links)
       foreach ($menu_items as $item) {
       ?>
 
-        <a href="<?php echo $menu_links[$count] ?>" class="list-group-item list-group-item-action bg-light"><?php echo $item ?></a>
+        <a href="<?php echo $menu_links[$count] ?>" class="bg-dark list-group-item list-group-item-action text-pink"><?php echo $item ?></a>
 
       <?php
         $count++;
@@ -59,13 +84,13 @@ function submenu($menu_items, $menu_links)
         if ($count == 0) {
       ?>
           <li class="nav-item active">
-            <a class="nav-link" href="<?php echo $menu_links[$count] ?>"><?php echo $item ?></a>
+            <a class="nav-link text-white" href="<?php echo $menu_links[$count] ?>"><?php echo $item ?></a>
           </li>
         <?php
         } else {
         ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo $menu_links[$count] ?>"><?php echo $item ?></a>
+            <a class="nav-link text-pink" href="<?php echo $menu_links[$count] ?>"><?php echo $item ?></a>
           </li>
       <?php
         }
@@ -79,10 +104,13 @@ function submenu($menu_items, $menu_links)
 ?>
 
 <?php
-function validate($form_fields, $form_names)
+function validateLanguage($form_fields, $form_names, $db,$id=null)
 {
   $errors = array();
   $count = 0;
+
+  $lang = new Language($db);
+
   foreach ($form_fields as $field) {
 
     if (!isset($_POST["$field"])) {
@@ -95,6 +123,18 @@ function validate($form_fields, $form_names)
       if ($field == "lang-name") {
         if (strlen($_POST["$field"]) > 25) {
           array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti duže od 25 znakova!");
+        }
+        $lang->set_name(trim(htmlspecialchars(strip_tags($_POST["$field"]))));
+        if(!empty($id)) {
+          $lang->set_id(trim(htmlspecialchars(strip_tags($id))));
+        }
+        if (!$lang->isUniqueName()) {
+          array_push($errors, "Već postoji jezik sa istim nazivom!");
+        }
+      }
+      if ($field == "lang-desc") {
+        if (strlen($_POST["$field"]) < 100) {
+          array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 100 znakova!");
         }
       }
     }
@@ -111,28 +151,30 @@ function image_upload($img)
 {
   $response = array();
 
-  if(@getimagesize($_FILES["$img"]["tmp_name"])) {
-    $fileinfo = getimagesize($_FILES["$img"]["tmp_name"]);
-    $width = $fileinfo[0];
-    $height = $fileinfo[1];
-  }
+  if (!empty($_FILES["$img"]["tmp_name"])) {
 
-  $allowed_image_extension = array(
-    "png",
-    "jpg",
-    "jpeg"
-  );
+    if (@getimagesize($_FILES["$img"]["tmp_name"])) {
+      $fileinfo = getimagesize($_FILES["$img"]["tmp_name"]);
+      $width = $fileinfo[0];
+      $height = $fileinfo[1];
+    }
 
-  $file_extension = pathinfo($_FILES["$img"]["name"], PATHINFO_EXTENSION);
- 
-  if (!file_exists($_FILES["$img"]["tmp_name"])) {
-    array_push($response, "Molimo odaberite datoteku.");
-  } else if (!in_array($file_extension, $allowed_image_extension)) {
-    array_push($response, "Datoteka nije ispravna. Molimo odaberite png, jpg ili jpeg datoteku.");
-  } else if (($_FILES["$img"]["size"] > 2000000)) {
-    array_push($response, "Datoteka je prevelika.");
-  } else if ($width > "1024" || $height > "768") {
-    array_push($response, "Dimenzije datoteke moraju biti unutar 1024x768.");
+    $allowed_image_extension = array(
+      "png",
+      "jpg",
+      "jpeg"
+    );
+
+    $file_extension = pathinfo($_FILES["$img"]["name"], PATHINFO_EXTENSION);
+
+    if (!in_array($file_extension, $allowed_image_extension)) {
+      array_push($response, "Datoteka nije ispravna. Molimo odaberite png, jpg ili jpeg datoteku.");
+    } else if (($_FILES["$img"]["size"] > 2000000)) {
+      array_push($response, "Datoteka je prevelika.");
+    } else if ($width > "1024" || $height > "768") {
+      array_push($response, "Dimenzije datoteke moraju biti unutar 1024x768.");
+    }
+
   }
 
   return $response;

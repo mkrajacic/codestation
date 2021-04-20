@@ -42,3 +42,54 @@
     margin-left: -15rem;
   }
 }
+
+.text-pink {
+  color: rgb(255, 188, 238) !important;
+}
+
+.btn-outline-light-pink {
+  color: rgb(255, 188, 238) !important;
+  border-color: rgb(255, 188, 238);
+}
+
+.btn-outline-strong-pink {
+  color: rgb(255 87 212) !important;
+  border-color: rgb(255 87 212);
+}
+
+.btn-pink {
+  color: rgba(250, 245, 245, 0.993);
+  background-color: rgb(255 139 226);
+  border-color: rgb(255 139 226);
+}
+
+.btn-pink:hover {
+  color: rgba(250, 245, 245, 0.993);
+  background-color: rgb(255 87 212);
+  border-color: rgb(255 87 212);
+}
+
+.btn-pink:focus, .btn-pink.focus {
+  color: rgb(255, 188, 238);
+  background-color: rgb(255 87 212);
+  border-color: rgb(255 87 212);
+  box-shadow: 0 0 0 0.2rem rgb(255, 188, 238);
+}
+
+.btn-pink.disabled, .btn-pink:disabled {
+  color: #212529;
+  background-color: rgb(255 212 244);
+  border-color: rgb(255 212 244);
+}
+
+.btn-pink:not(:disabled):not(.disabled):active, .btn-pink:not(:disabled):not(.disabled).active,
+.show > .btn-pink.dropdown-toggle {
+  color: #212529;
+  background-color: rgb(255, 188, 238);
+  border-color: rgb(255, 188, 238);
+}
+
+.btn-pink:not(:disabled):not(.disabled):active:focus, .btn-pink:not(:disabled):not(.disabled).active:focus,
+.show > .btn-pink.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgb(255 87 212);
+}

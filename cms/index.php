@@ -3,7 +3,7 @@ $title = "Administracija";
 include_once("header.php");
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg navbar-light border-bottom">
     <button class="btn btn-primary" id="menu-toggle">Sakrij meni</button>
     <span style="margin-left: 15%;">Dobrodošli, MK!</span>
 </nav>
