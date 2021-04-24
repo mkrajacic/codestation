@@ -17,9 +17,7 @@
 <div class="d-flex" id="wrapper">
 
 <?php
-      $menu_items = array('Jezici','Lekcije','Pitanja','Korisnici','Ovlasti','Odjava');
-      $menu_links = array('languages.php','lessons.php','questions.php','users.php','roles.php','logout.php');
-      sidemenu($menu_items,$menu_links);
+      $menu_items = array('main'=>array('Jezici','Lekcije','Pitanja','Korisnici','Ovlasti','Odjava'));
+      $menu_links = array('main'=>array('languages.php','lessons.php','questions.php','users.php','roles.php','logout.php'));
 ?>
   
-    <div id="page-content-wrapper">

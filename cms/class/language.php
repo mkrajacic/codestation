@@ -111,6 +111,23 @@ class Language
         }
     }
 
+    public function getImageById()
+    {
+
+        $query = "SELECT l.image FROM " . $this->table . " l WHERE l.id=?";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->id);
+
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                return $stmt;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public function createLanguage()
     {
 
@@ -154,6 +171,63 @@ class Language
                 $stmt->bindParam(1, $this->name);
                 $stmt->bindParam(2, $this->description);
                 $stmt->bindParam(3, $this->id);
+
+                if ($stmt->execute()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function editLanguageImage()
+    {
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        $check_query = "SELECT l.id FROM " . $this->table . " l WHERE id=?";
+        $check = $this->conn->prepare($check_query);
+        $check->bindParam(1, $this->id);
+
+        if ($check->execute()) {
+
+            if ($check->rowCount() > 0) {
+                $query = "UPDATE " . $this->table . " SET image=? WHERE id=?";
+
+                $stmt = $this->conn->prepare($query);
+
+                $this->image = trim(htmlspecialchars(strip_tags($this->image)));
+
+                $stmt->bindParam(1, $this->image);
+                $stmt->bindParam(2, $this->id);
+
+                if ($stmt->execute()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function deleteLanguageImage()
+    {
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        $check_query = "SELECT l.id FROM " . $this->table . " l WHERE id=?";
+        $check = $this->conn->prepare($check_query);
+        $check->bindParam(1, $this->id);
+
+        if ($check->execute()) {
+
+            if ($check->rowCount() > 0) {
+                $query = "UPDATE " . $this->table . " SET image=NULL WHERE id=?";
+
+                $stmt = $this->conn->prepare($query);
+
+                $stmt->bindParam(1, $this->id);
 
                 if ($stmt->execute()) {
                     return true;

@@ -1,5 +1,5 @@
 <?php
-$title = "Obriši jezik";
+$title = "Obriši fotografiju jezika";
 include_once("header.php");
 include_once("class/language.php");
 $db = connect();
@@ -13,9 +13,26 @@ if (isset($_GET['id'])) {
         $errors = array('Dogodila se pogreška!');
     } else {
         $lang->set_id($language_id);
+        $stmt = $lang->getImageById();
 
-        if (!$lang->deleteLanguage()) {
-            $errors = array('Greška pri brisanju programskog jezika!');
+        if($stmt) {
+            $numrows = $stmt->rowCount();
+            if ($numrows > 0) {
+                while ($image_row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    extract($image_row);
+                    $img = $image;
+                }
+            }
+        }else{
+            $errors = array('Greška kod dohvaćanja stare fotografije jezika!');
+        }
+
+        if (!unlink("img/lang" . $img)) {
+            $errors = array('Greška pri brisanju fotografije jezika!');
+        }
+
+        if (!$lang->deleteLanguageImage()) {
+            $errors = array('Greška pri brisanju fotografije jezika!');
         }
     }
 } else {
@@ -28,7 +45,7 @@ sidemenu($menu_items,$menu_links,"Jezici");
 ?>
 <div id="page-content-wrapper">
 <div class="container-fluid">
-    <h1 class="mt-4">Obriši programski jezik</h1>
+    <h1 class="mt-4">Obriši fotografiju jezika</h1>
     <?php
     if (isset($errors)) {
 
@@ -42,7 +59,7 @@ sidemenu($menu_items,$menu_links,"Jezici");
         }
     } else {
         ?>
-        <p class='text-light'>Programski jezik uspješno obrisan!</p>
+        <p class='text-light'>Fotografija jezika uspješno obrisana!</p>
         <a class="btn btn-outline-light-pink" href="languages.php" role="button">Povratak na programske jezike</a>
     <?php
     }

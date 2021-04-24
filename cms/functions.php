@@ -17,13 +17,13 @@ function connect()
 ?>
 
 <?php
-function nav($menu_items, $menu_links)
+function nav()
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark border-bottom">
     <button class="btn btn-pink" id="menu-toggle">Sakrij meni</button>
     <?php
-    submenu($menu_items, $menu_links);
+    echo "la genesi";
     ?>
   </nav>
 <?php
@@ -42,7 +42,7 @@ function delete_confirmation($deleted_item_label, $deleted_item, $delete_url, $d
 ?>
 
 <?php
-function sidemenu($menu_items, $menu_links)
+function sidemenu($menu_items, $menu_links, $category="Index")
 {
 ?>
   <div class="bg-dark border-right" id="sidebar-wrapper">
@@ -51,16 +51,28 @@ function sidemenu($menu_items, $menu_links)
 
       <?php
       $count = 0;
-      foreach ($menu_items as $item) {
+      // var_dump($menu_items['sub']);
+      foreach ($menu_items['main'] as $item) {
+        if ($item == $category) {
       ?>
 
-        <a href="<?php echo $menu_links[$count] ?>" class="bg-dark list-group-item list-group-item-action text-pink"><?php echo $item ?></a>
-
+          <a href="<?php echo $menu_links['main'][$count] ?>" class="bg-dark list-group-item list-group-item-action text-pink" style="background-color:#1d2124 !important;"><?php echo $item ?></a>
+          <?php
+          $count++;
+          $subcount = 0;
+          foreach ($menu_items['sub'] as $subitem) {
+          ?>
+            <a href="<?php echo $menu_links['sub'][$subcount] ?>" class="bg-dark list-group-item list-group-item-action text-pink" style="background-color:#323e4a !important;"><?php echo $subitem ?></a>
+          <?php
+                    $subcount++;
+          }
+        }else {
+          ?>
+          <a href="<?php echo $menu_links['main'][$count] ?>" class="bg-dark list-group-item list-group-item-action text-pink"><?php echo $item ?></a>
       <?php
-        $count++;
+        }
       }
       ?>
-
     </div>
   </div>
 <?php
@@ -68,43 +80,7 @@ function sidemenu($menu_items, $menu_links)
 ?>
 
 <?php
-function submenu($menu_items, $menu_links)
-{
-?>
-  <!-- mobile button -->
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-      <?php
-      $count = 0;
-      foreach ($menu_items as $item) {
-        if ($count == 0) {
-      ?>
-          <li class="nav-item active">
-            <a class="nav-link text-white" href="<?php echo $menu_links[$count] ?>"><?php echo $item ?></a>
-          </li>
-        <?php
-        } else {
-        ?>
-          <li class="nav-item">
-            <a class="nav-link text-pink" href="<?php echo $menu_links[$count] ?>"><?php echo $item ?></a>
-          </li>
-      <?php
-        }
-        $count++;
-      }
-      ?>
-    </ul>
-  </div>
-<?php
-}
-?>
-
-<?php
-function validateLanguage($form_fields, $form_names, $db,$id=null)
+function validateLanguage($form_fields, $form_names, $db, $id = null)
 {
   $errors = array();
   $count = 0;
@@ -125,7 +101,7 @@ function validateLanguage($form_fields, $form_names, $db,$id=null)
           array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti duže od 25 znakova!");
         }
         $lang->set_name(trim(htmlspecialchars(strip_tags($_POST["$field"]))));
-        if(!empty($id)) {
+        if (!empty($id)) {
           $lang->set_id(trim(htmlspecialchars(strip_tags($id))));
         }
         if (!$lang->isUniqueName()) {
@@ -161,6 +137,7 @@ function image_upload($img)
 
     $allowed_image_extension = array(
       "png",
+      "PNG",
       "jpg",
       "jpeg"
     );
@@ -174,7 +151,6 @@ function image_upload($img)
     } else if ($width > "1024" || $height > "768") {
       array_push($response, "Dimenzije datoteke moraju biti unutar 1024x768.");
     }
-
   }
 
   return $response;

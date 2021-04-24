@@ -32,11 +32,12 @@ if (isset($_GET['id'])) {
     $errors = array('Dogodila se pogreška!');
 }
 
-$menu_items = array('Početna', 'Novi jezik');
-$menu_links = array('index.php', 'new_language.php');
-nav($menu_items, $menu_links);
+$menu_items['sub'] = array('Početna', 'Novi jezik');
+$menu_links['sub'] = array('index.php', 'new_language.php');
+sidemenu($menu_items,$menu_links,"Jezici");
 ?>
 
+<div id="page-content-wrapper">
 <div class="container-fluid">
     <h1 class="mt-4">Uredi programski jezik</h1>
     <form method="POST" action="">
