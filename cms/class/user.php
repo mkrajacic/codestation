@@ -1,13 +1,14 @@
 <?php
-class Language
+class User
 {
     private $conn;
-    private $table = "language";
+    private $table = "user_profile";
 
     private $id;
-    private $name;
+    private $username;
+    private $password;
     private $image;
-    private $description;
+    private $role_code;
 
     public function __construct($db)
     {
@@ -24,14 +25,24 @@ class Language
         $this->id = $id;
     }
 
-    public function get_name()
+    public function get_username()
     {
-        return $this->name;
+        return $this->username;
     }
 
-    public function set_name($name)
+    public function set_username($username)
     {
-        $this->name = $name;
+        $this->username = $username;
+    }
+
+    public function get_password()
+    {
+        return $this->password;
+    }
+
+    public function set_password($password)
+    {
+        $this->password = $password;
     }
 
     public function get_image()
@@ -44,33 +55,33 @@ class Language
         $this->image = $image;
     }
 
-    public function get_description()
+    public function get_role_code()
     {
-        return $this->description;
+        return $this->role_code;
     }
 
-    public function set_description($desc)
+    public function set_role_code($role_code)
     {
-        $this->description = $desc;
+        $this->role_code = $role_code;
     }
 
-    public function isUniqueName()
+    public function isUniqueUsername()
     {
-        $query = "SELECT l.id,l.name FROM " . $this->table . " l WHERE name=?";
+        $query = "SELECT l.id,l.username FROM " . $this->table . " l WHERE username=?";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->name);
+        $stmt->bindParam(1, $this->username);
 
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
 
-                $lang_id = $this->id;
+                $user_id = $this->id;
 
-                $language_row = $stmt->fetch(PDO::FETCH_ASSOC);
-                extract($language_row);
+                $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
+                extract($user_row);
 
-                if (!empty($lang_id)) {
-                    if ($lang_id == $id) {
+                if (!empty($user_id)) {
+                    if ($user_id == $id) {
                         return true;
                     } else {
                         return false;
@@ -82,10 +93,10 @@ class Language
         }
     }
 
-    public function getLanguages()
+    public function getUsers()
     {
 
-        $query = "SELECT l.id, l.name, l.description, l.image FROM " . $this->table . " l ORDER BY l.id";
+        $query = "SELECT l.id, l.username, l.password, l.image, l.role_code FROM " . $this->table . " l ORDER BY l.id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -93,10 +104,10 @@ class Language
         return $stmt;
     }
 
-    public function getLanguageById($id)
+    public function getUserById($id)
     {
 
-        $query = "SELECT l.id, l.name, l.description, l.image FROM " . $this->table . " l WHERE l.id=?";
+        $query = "SELECT l.id, l.username, l.password, l.image, l.role_code FROM " . $this->table . " l WHERE l.id=?";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
@@ -127,20 +138,18 @@ class Language
         }
     }
 
-    public function createLanguage()
+    public function createUser()
     {
 
-        $query = "INSERT INTO " . $this->table . " (name,description,image) VALUES (?,?,?)";
+        $query = "INSERT INTO " . $this->table . " (username,password) VALUES (?,?)";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->name = trim(htmlspecialchars(strip_tags($this->name)));
-        $this->description = trim(htmlspecialchars(strip_tags($this->description)));
-        $this->image = trim(htmlspecialchars(strip_tags($this->image)));
+        $this->username = trim(htmlspecialchars(strip_tags($this->username)));
+        $this->password = trim(htmlspecialchars(strip_tags($this->password)));
 
-        $stmt->bindParam(1, $this->name);
-        $stmt->bindParam(2, $this->description);
-        $stmt->bindParam(3, $this->image);
+        $stmt->bindParam(1, $this->username);
+        $stmt->bindParam(2, $this->password);
 
         if ($stmt->execute()) {
             return true;
@@ -148,7 +157,7 @@ class Language
         return false;
     }
 
-    public function editLanguage()
+    public function editUser()
     {
 
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -160,16 +169,18 @@ class Language
         if ($check->execute()) {
 
             if ($check->rowCount() > 0) {
-                $query = "UPDATE " . $this->table . " SET name=?,description=? WHERE id=?";
+                $query = "UPDATE " . $this->table . " SET username=?,password=?,role_code=? WHERE id=?";
 
                 $stmt = $this->conn->prepare($query);
 
-                $this->name = trim(htmlspecialchars(strip_tags($this->name)));
-                $this->description = trim(htmlspecialchars(strip_tags($this->description)));
+                $this->username = trim(htmlspecialchars(strip_tags($this->username)));
+                $this->password = trim(htmlspecialchars(strip_tags($this->password)));
+                $this->role_code = trim(htmlspecialchars(strip_tags($this->role_code)));
 
-                $stmt->bindParam(1, $this->name);
-                $stmt->bindParam(2, $this->description);
-                $stmt->bindParam(3, $this->id);
+                $stmt->bindParam(1, $this->username);
+                $stmt->bindParam(2, $this->password);
+                $stmt->bindParam(3, $this->role_code);
+                $stmt->bindParam(4, $this->id);
 
                 if ($stmt->execute()) {
                     return true;
@@ -180,7 +191,7 @@ class Language
         return false;
     }
 
-    public function editLanguageImage()
+    public function editUserImage()
     {
 
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -210,7 +221,7 @@ class Language
         return false;
     }
 
-    public function deleteLanguageImage()
+    public function deleteUserImage()
     {
 
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -237,7 +248,7 @@ class Language
         return false;
     }
 
-    public function deleteLanguage()
+    public function deleteUser()
     {
 
         $query = "DELETE FROM " . $this->table . " WHERE id=?";

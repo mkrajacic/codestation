@@ -1,6 +1,8 @@
 <?php
 $title = "Administracija";
 include_once("header.php");
+$menu_items['main'] = array('Jezici', 'Korisnici', 'Ovlasti');
+$menu_links['main'] = array('languages.php', 'users.php', 'roles.php');
 sidemenu($menu_items,$menu_links);
 ?>
 

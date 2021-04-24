@@ -4,13 +4,15 @@ include_once("header.php");
 include_once("class/language.php");
 $db = connect();
 
-$menu_items['sub'] = array('Početna', 'Novi jezik');
-$menu_links['sub'] = array('index.php', 'new_language.php');
+$menu_items['main'] = array('Jezici', 'Korisnici', 'Ovlasti');
+$menu_links['main'] = array('languages.php', 'users.php', 'roles.php');
+$menu_items['sub'] = array('Novi jezik');
+$menu_links['sub'] = array('new_language.php');
 sidemenu($menu_items,$menu_links,"Jezici");
 ?>
 
 <div id="page-content-wrapper">
-<!-- <?php nav(); ?> -->
+<!-- <?php user_header(); ?> -->
 <div class="container-fluid">
     <h1 class="mt-4">Popis jezika</h1>
     <?php
@@ -36,7 +38,7 @@ sidemenu($menu_items,$menu_links,"Jezici");
             ?>
             <a class="btn btn-outline-light-pink" href="edit_language.php?id=<?php echo $id ?>" role="button">Uredi</a>
             <a class="btn btn-outline-light-pink" href="edit_language_image.php?id=<?php echo $id ?>" role="button">Uredi fotografiju</a>
-            <a class="btn btn-outline-strong-pink" href="delete_language_confirmation.php?id=<?php echo $id ?>" role="button">Obriši</a>
+            <a class="btn btn-outline-strong-pink" href="delete_language_confirmation.php?id=<?php echo $id ?>" role="button">Obriši</a><br>
        <?php
         }
     }

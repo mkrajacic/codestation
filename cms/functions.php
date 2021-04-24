@@ -17,11 +17,10 @@ function connect()
 ?>
 
 <?php
-function nav()
+function user_header()
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark border-bottom">
-    <button class="btn btn-pink" id="menu-toggle">Sakrij meni</button>
     <?php
     echo "la genesi";
     ?>
@@ -42,16 +41,15 @@ function delete_confirmation($deleted_item_label, $deleted_item, $delete_url, $d
 ?>
 
 <?php
-function sidemenu($menu_items, $menu_links, $category="Index")
+function sidemenu($menu_items, $menu_links, $category = "Index")
 {
 ?>
   <div class="bg-dark border-right" id="sidebar-wrapper">
-    <div class="sidebar-heading">MK</div>
+    <div class="sidebar-heading"><a class="text-white" style="text-decoration:none;" href="index.php">MK</a></div>
     <div class="list-group list-group-flush">
 
       <?php
       $count = 0;
-      // var_dump($menu_items['sub']);
       foreach ($menu_items['main'] as $item) {
         if ($item == $category) {
       ?>
@@ -64,12 +62,13 @@ function sidemenu($menu_items, $menu_links, $category="Index")
           ?>
             <a href="<?php echo $menu_links['sub'][$subcount] ?>" class="bg-dark list-group-item list-group-item-action text-pink" style="background-color:#323e4a !important;"><?php echo $subitem ?></a>
           <?php
-                    $subcount++;
+            $subcount++;
           }
-        }else {
+        } else {
           ?>
           <a href="<?php echo $menu_links['main'][$count] ?>" class="bg-dark list-group-item list-group-item-action text-pink"><?php echo $item ?></a>
       <?php
+          $count++;
         }
       }
       ?>
@@ -112,6 +111,83 @@ function validateLanguage($form_fields, $form_names, $db, $id = null)
         if (strlen($_POST["$field"]) < 100) {
           array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 100 znakova!");
         }
+      }
+    }
+
+    $count++;
+  }
+
+  return $errors;
+}
+?>
+
+<?php
+function validate_user($form_fields, $form_names, $db, $id = null)
+{
+  $errors = array();
+  $count = 0;
+
+  $user = new User($db);
+  foreach ($form_fields as $field) {
+
+    if (!isset($_POST["$field"])) {
+      array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno!");
+    } else if (empty($_POST["$field"])) {
+      array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno!");
+    } else if (ctype_space($_POST["$field"])) {
+      array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno!");
+    } else {
+
+      if ($field == "usr-username") {
+
+        if (strlen($_POST["$field"]) > 15) {
+          array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti duže od 15 znakova!");
+        } else if (strlen($_POST["$field"]) < 3) {
+          array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti kraće od 3 znaka!");
+        }
+
+        $user->set_username(trim(htmlspecialchars(strip_tags($_POST["$field"]))));
+        if (!empty($id)) {
+          $user->set_id(trim(htmlspecialchars(strip_tags($id))));
+        }
+        if (!$user->isUniqueUsername()) {
+          array_push($errors, "Korisničko ime već je zauzeto!");
+        }
+
+        $allowed = array("_");
+
+        if (!ctype_alnum(str_replace($allowed, '', $_POST["$field"]))) {
+          array_push($errors, "Neispravno korisničko ime!");
+        }
+
+        if(!preg_match("#[A-Za-z]+#",$_POST["$field"])) {
+          array_push($errors, "Korisničko ime mora sadržavati barem jedno slovo!");
+        }
+
+      }
+
+      if ($field == "usr-password") {
+
+        if (strlen($_POST["$field"]) < 6) {
+          array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 6 znakova!");
+        }
+
+        $allowed = array("_","-",".","@");
+
+        if (!ctype_alnum(str_replace($allowed, '', $_POST["$field"]))) {
+          array_push($errors, "Neispravna lozinka!");
+        }
+
+        if(!preg_match("#[A-Z]+#",$_POST["$field"])) {
+          array_push($errors, "Lozinka mora sadržavati barem jedno veliko slovo!");
+        }else if(!preg_match("#[a-z]+#",$_POST["$field"])) {
+          array_push($errors, "Lozinka mora sadržavati barem jedno malo slovo!");
+        }else if(!preg_match("#[-_.@]+#",$_POST["$field"])) {
+          array_push($errors, "Lozinka mora sadržavati barem jedan posebni znak!");
+        }else if(!preg_match("#[0-9]+#",$_POST["$field"])){
+          array_push($errors, "Lozinka mora sadržavati barem jednu znamenku!");
+        }
+
       }
     }
 
