@@ -160,10 +160,9 @@ function validate_user($form_fields, $form_names, $db, $id = null)
           array_push($errors, "Neispravno korisničko ime!");
         }
 
-        if(!preg_match("#[A-Za-z]+#",$_POST["$field"])) {
+        if (!preg_match("#[A-Za-z]+#", $_POST["$field"])) {
           array_push($errors, "Korisničko ime mora sadržavati barem jedno slovo!");
         }
-
       }
 
       if ($field == "usr-password") {
@@ -172,22 +171,21 @@ function validate_user($form_fields, $form_names, $db, $id = null)
           array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 6 znakova!");
         }
 
-        $allowed = array("_","-",".","@");
+        $allowed = array("_", "-", ".", "@");
 
         if (!ctype_alnum(str_replace($allowed, '', $_POST["$field"]))) {
           array_push($errors, "Neispravna lozinka!");
         }
 
-        if(!preg_match("#[A-Z]+#",$_POST["$field"])) {
+        if (!preg_match("#[A-Z]+#", $_POST["$field"])) {
           array_push($errors, "Lozinka mora sadržavati barem jedno veliko slovo!");
-        }else if(!preg_match("#[a-z]+#",$_POST["$field"])) {
+        } else if (!preg_match("#[a-z]+#", $_POST["$field"])) {
           array_push($errors, "Lozinka mora sadržavati barem jedno malo slovo!");
-        }else if(!preg_match("#[-_.@]+#",$_POST["$field"])) {
+        } else if (!preg_match("#[-_.@]+#", $_POST["$field"])) {
           array_push($errors, "Lozinka mora sadržavati barem jedan posebni znak!");
-        }else if(!preg_match("#[0-9]+#",$_POST["$field"])){
+        } else if (!preg_match("#[0-9]+#", $_POST["$field"])) {
           array_push($errors, "Lozinka mora sadržavati barem jednu znamenku!");
         }
-
       }
     }
 
@@ -230,5 +228,33 @@ function image_upload($img)
   }
 
   return $response;
+}
+?>
+
+<?php
+function login()
+{
+  session_start();
+?>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-success">
+          Uspješan login!
+        </div>
+        <div class="modal-footer text-dark">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php
 }
 ?>

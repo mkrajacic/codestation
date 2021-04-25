@@ -93,6 +93,31 @@ class User
         }
     }
 
+    public function isCorrectPassword()
+    {
+        $query = "SELECT l.username,l.password FROM " . $this->table . " l WHERE username=?";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->username);
+        $password_temp = $this->password;
+
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+
+                $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
+                extract($user_row);
+
+                if (password_verify($password_temp, $password)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+
     public function getUsers()
     {
 
@@ -146,7 +171,7 @@ class User
         $stmt = $this->conn->prepare($query);
 
         $this->username = trim(htmlspecialchars(strip_tags($this->username)));
-        $this->password = trim(htmlspecialchars(strip_tags($this->password)));
+        $this->password = $this->password;
 
         $stmt->bindParam(1, $this->username);
         $stmt->bindParam(2, $this->password);
@@ -174,7 +199,7 @@ class User
                 $stmt = $this->conn->prepare($query);
 
                 $this->username = trim(htmlspecialchars(strip_tags($this->username)));
-                $this->password = trim(htmlspecialchars(strip_tags($this->password)));
+                $this->password = $this->password;
                 $this->role_code = trim(htmlspecialchars(strip_tags($this->role_code)));
 
                 $stmt->bindParam(1, $this->username);
