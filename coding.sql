@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2021 at 08:21 PM
+-- Generation Time: Apr 26, 2021 at 07:49 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -52,7 +52,7 @@ CREATE TABLE `language` (
 --
 
 INSERT INTO `language` (`id`, `name`, `image`, `description`) VALUES
-(1, 'Python', '1619258947.png', 'Python je interpreterski programski jezik. Interpreterski programski jezici\r\nsu jezici kod kojih se izvorni kôd izvršava direktno uz pomoć\r\ninterpretera, tj. kod ovakvih tipova programskih jezika nema potrebe za\r\nkompajliranjem prije izvršavanja, tj. prevođenjem u izvršni oblik.\r\nProgrami pisani u programskom jeziku Python su kraći, a i za njihovo\r\npisanje utrošak vremena je puno manji. Python programerima dopušta\r\nnekoliko stilova pisanja programa: strukturno, objektno orijentirano i\r\naspektno orijentirano programiranje'),
+(1, 'Python', '1619434641.png', 'Python je interpreterski programski jezik. Interpreterski programski jezici\r\nsu jezici kod kojih se izvorni kôd izvršava direktno uz pomoć\r\ninterpretera, tj. kod ovakvih tipova programskih jezika nema potrebe za\r\nkompajliranjem prije izvršavanja, tj. prevođenjem u izvršni oblik.\r\nProgrami pisani u programskom jeziku Python su kraći, a i za njihovo\r\npisanje utrošak vremena je puno manji. Python programerima dopušta\r\nnekoliko stilova pisanja programa: strukturno, objektno orijentirano i\r\naspektno orijentirano programiranje'),
 (3, 'C#', '1619260299.png', 'C# je objektno orijentirani programski jezik kojeg su razvili Anders Hejlsberg i drugi u tvrtci Microsoft.\r\nC# je izumljen s ciljem da .NET platforma dobije programski jezik, koji bi maksimalno iskoristio njezine sposobnosti. Sličan je programskim jezicima Java i C++.');
 
 -- --------------------------------------------------------
@@ -101,7 +101,7 @@ CREATE TABLE `question_type` (
 CREATE TABLE `user_profile` (
   `id` int(11) NOT NULL,
   `username` varchar(15) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(60) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `role_code` varchar(3) NOT NULL DEFAULT 'USR'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -111,7 +111,7 @@ CREATE TABLE `user_profile` (
 --
 
 INSERT INTO `user_profile` (`id`, `username`, `password`, `image`, `role_code`) VALUES
-(1, 'ayumenonakade', '$2y$10$jix21bhrINuBjm5C4JfkWuAAl', NULL, 'USR');
+(5, 'emukei', '$2y$10$kF7ufHrq1nUMkl0WTybL/OnaJw6FyfGUq188ARBTMR6j97t2qemtC', NULL, 'USR');
 
 -- --------------------------------------------------------
 
@@ -298,7 +298,7 @@ ALTER TABLE `question_type`
 -- AUTO_INCREMENT for table `user_profile`
 --
 ALTER TABLE `user_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_session`
