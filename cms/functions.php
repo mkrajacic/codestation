@@ -258,3 +258,63 @@ function login()
 <?php
 }
 ?>
+
+<?php
+function show_modal($modal_names)
+{
+  if (isset($_SESSION['show_modal']['name'])) {
+
+    $modal = $_SESSION['show_modal']['name'];
+
+    foreach ($modal_names as $mod) {
+
+      echo "<script>
+      $('#$mod').on('hidden.bs.modal', function() {
+          $('.val-msg').empty();
+      });
+    </script>";
+
+      if ($mod == $modal) {
+        echo "<script>
+      $('#$mod').modal('show');
+      </script>";
+
+        unset($_SESSION['show_modal']['name']);
+        unset($_SESSION['status']);
+      }
+    }
+  }
+}
+?>
+
+<?php
+function show_modal_messages()
+{
+  if (isset($_SESSION['status'])) {
+
+    $status = $_SESSION['status'];
+    $messages = $_SESSION['errors'];
+    $suc = $_SESSION['success'];
+    $x = array();
+    $y = array();
+
+    foreach ($messages as $m) {
+      array_push($x, $m);
+    }
+
+    foreach ($suc as $s) {
+      array_push($y, $s);
+    }
+
+    if ($status == 1) {
+      foreach ($y as $mes) {
+        echo "<div class='text-success'><p class='val-msg'>" . $mes . "<br></p></div>";
+      }
+    } else if ($status == 0) {
+      foreach ($x as $s) {
+        echo "<div class='text-danger'><p class='val-msg'>" . $s . "<br></p></div>";
+      }
+    }
+  }
+}
+?>

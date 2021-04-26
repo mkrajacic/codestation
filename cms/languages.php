@@ -56,27 +56,7 @@ if (isset($_GET['login-success']) && $_GET['login-success'] == 1) {
                             </div>
                             <div class="modal-body">
                                 <?php
-
-                                if (isset($_GET['langimgfailure']) && $_GET['langimgfailure'] == 1) {
-                                    if (!empty($_SESSION['errors'])) {
-
-                                        $messages = $_SESSION['errors'];
-
-                                        foreach ($messages as $mes) {
-                                            echo "<div class='text-danger'><p class='val-msg'>" . $mes . "<br></p></div>";
-                                        }
-                                    }
-                                }
-
-                                if (isset($_GET['langimgsuccess']) && $_GET['langimgsuccess'] == 1) {
-                                    if (!empty($_SESSION['success'])) {
-                                        $suc = $_SESSION['success'];
-
-                                        foreach ($suc as $s) {
-                                            echo "<div class='text-success'><p class='val-msg'>" . $s . "<br></p></div>";
-                                        }
-                                    }
-                                }
+                                show_modal_messages();
                                 ?>
                                 <form method="post" action="edit_language_image.php" enctype="multipart/form-data" id="langImg">
                                     <input type="hidden" name="submitted" id="submitted">
@@ -84,14 +64,13 @@ if (isset($_GET['login-success']) && $_GET['login-success'] == 1) {
                                     <div class="form-group">
                                         <label class="text-dark" for="lang-img">Slika</label>
                                         <input type="file" class="form-control-file" id="lang-img" name="lang-img">
-                                        <small id="langnameHelp" class="form-text text-pink">Datoteka ne smije biti veća od 2MB. Dozvoljeni formati datoteke su png, jpg i jpeg.</small>
+                                        <small id="langnameHelp" class="form-text text-muted">Datoteka ne smije biti veća od 2MB. Dozvoljeni formati datoteke su png, jpg i jpeg.</small>
                                     </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" id="langImgSubmit" class="btn btn-pink">Uredi fotografiju</button>
                                 </form>
-                                <button type="button" id="close-cancel" data-dismiss="modal" aria-label="Close" class="btn btn-outline-light-pink">Odustani</button><br><br>
-                                <a class="btn btn-outline-light-pink" href="delete_language_image.php?id=<?php echo $id ?>" role="button">Obriši fotografiju</a>
+                                <a class="btn btn-outline-danger" href="delete_language_image.php?id=<?php echo $id ?>" role="button">Obriši fotografiju</a>
                             </div>
                         </div>
                     </div>
@@ -104,29 +83,5 @@ if (isset($_GET['login-success']) && $_GET['login-success'] == 1) {
 
     <?php
     include_once("footer.php");
-    if (array_key_exists('langimgfailure', $_GET)) {
+    show_modal(array('langimgModal'));
     ?>
-        <script>
-            $('#langimgModal').modal('show');
-        </script>
-    <?php
-    }
-    ?>
-    <?php
-    if (array_key_exists('langimgsuccess', $_GET)) {
-    ?>
-        <script>
-            $('#langimgModal').modal('show');
-        </script>
-    <?php
-    }
-    ?>
-    <script>
-        $("#close-button").click(function() {
-            $('.val-msg').empty();
-        });
-
-        $("#close-cancel").click(function() {
-            $('.val-msg').empty();
-        });
-    </script>

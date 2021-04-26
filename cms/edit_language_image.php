@@ -5,6 +5,9 @@ $db = connect();
 session_start();
 $_SESSION['success'] = array();
 $_SESSION['errors'] = array();
+$_SESSION['show_modal'] = array('name'=>'');
+$_SESSION['show_modal']['name']="langimgModal";
+$_SESSION['status'] = 0;
 
 if (isset($_POST['id'])) {
 
@@ -13,7 +16,8 @@ if (isset($_POST['id'])) {
 
     if (!$stmt = $old_lang->getLanguageById($language_id)) {
         $errors = array('Dogodila se pogreška!');
-        header("Location: languages.php?langimgfailure=1");
+        header("Location: languages.php");
+        exit;
     }
 
     if (isset($_POST['submitted'])) {
@@ -21,7 +25,8 @@ if (isset($_POST['id'])) {
     }
 } else {
     $errors = array('Dogodila se pogreška!');
-    header("Location: languages.php?langimgfailure=1");
+    header("Location: languages.php");
+    exit;
 }
 
 
@@ -32,7 +37,8 @@ if (isset($errors)) {
         foreach ($errors as $err) {
             array_push($_SESSION['errors'], $err);
         }
-        header("Location: languages.php?langimgfailure=1");
+        header("Location: languages.php");
+        exit;
     } else {
         $lang = new Language($db);
 
@@ -49,17 +55,21 @@ if (isset($errors)) {
 
             if (!move_uploaded_file($_FILES["lang-img"]["tmp_name"], $target)) {
                 array_push($_SESSION['errors'], "Greška pri dodavanju slike!");
-                header("Location: languages.php?langimgfailure=1");
+                header("Location: languages.php");
+                exit;
             } else {
 
                 if ($lang->editLanguageImage()) {
                     array_push($_SESSION['success'], "Fotografija jezika uspješno promijenjena!");
-                    header("Location: languages.php?langimgsuccess=1");
+                    header("Location: languages.php");
+                    $_SESSION['status'] = 1;
+                    exit;
                 }
             }
         } else {
             array_push($_SESSION['errors'], "Molimo odaberite fotografiju!");
-            header("Location: languages.php?langimgfailure=1");
+            header("Location: languages.php");
+            exit;
         }
     }
 }
