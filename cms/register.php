@@ -86,4 +86,11 @@ sidemenu($menu_items, $menu_links, "Korisnici");
 
     <?php
     include_once("footer.php");
+
+    session_start();
+    if(check_user_status() != 0) {
+        $_SESSION['redirect_message'] = "Već ste registrirani u sustav!";
+        $_SESSION['show_modal']['name'] = "redirectModal";
+        header("Location: index.php");
+    }
     ?>

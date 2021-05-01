@@ -146,6 +146,23 @@ class User
         }
     }
 
+    public function getIdByUsername($username)
+    {
+
+        $query = "SELECT l.id, l.username FROM " . $this->table . " l WHERE l.username=?";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $username);
+
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                return $stmt;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public function getImageById()
     {
 

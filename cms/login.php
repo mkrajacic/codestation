@@ -21,6 +21,26 @@ if (isset($_POST['submitted'])) {
     } else {
         if (!$user->isCorrectPassword()) {
             array_push($errors, "Neispravna lozinka!");
+        } else {
+            if ($stmt = $user->getIdByUsername($user->get_username())) {
+                $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
+                extract($user_row);
+                $user_id = $id;
+                $user->set_id($user_id);
+            } else {
+                array_push($errors, "Greška pri učitavanju podataka o korisniku!");
+            }
+
+            if ($stmt = $user->getUserById($user_id)) {
+                $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
+                extract($user_row);
+                $user_image = $image;
+                $user->set_image($user_image);
+                $user_role = $role_code;
+                $user->set_role_code($user_role);
+            } else {
+                array_push($errors, "Greška pri učitavanju podataka o korisniku!");
+            }
         }
     }
 }
@@ -50,7 +70,8 @@ sidemenu($menu_items, $menu_links, "Korisnici");
                     }
                 } else {
                     if (isset($user)) {
-                        login();
+
+                        login($user);
                     ?>
             <?php
                     }
@@ -72,10 +93,20 @@ sidemenu($menu_items, $menu_links, "Korisnici");
 
     <?php
     include_once("footer.php");
+
+    session_start();
+    if (check_user_status() != 0) {
+        if (!(isset($_SESSION['fresh-login']) && $_SESSION['fresh-login'] == 1)) {
+            $_SESSION['redirect_message'] = "Već ste ulogirani u sustav!";
+            $_SESSION['show_modal']['name'] = "redirectModal";
+            header("Location: index.php");
+            unset($_SESSION['fresh-login']);
+        }
+    }
     ?>
     <script>
         function myOnloadFunc() {
-            $('#exampleModal').modal('show');
+            $('#loginModal').modal('show');
         }
         myOnloadFunc();
     </script>

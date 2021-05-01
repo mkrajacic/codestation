@@ -1,8 +1,13 @@
 <?php
-$title = "Obriši fotografiju jezika";
-include_once("header.php");
+include_once("functions.php");
 include_once("class/language.php");
 $db = connect();
+session_start();
+$_SESSION['success'] = array();
+$_SESSION['errors'] = array();
+$_SESSION['show_modal'] = array('name'=>'');
+$_SESSION['show_modal']['name']="langimgdelModal";
+$_SESSION['status'] = 0;
 
 if (isset($_GET['id'])) {
 
@@ -11,6 +16,7 @@ if (isset($_GET['id'])) {
 
     if (!$stmt = $lang->getLanguageById($language_id)) {
         $errors = array('Dogodila se pogreška!');
+        header("Location: languages.php");
     } else {
         $lang->set_id($language_id);
         $stmt = $lang->getImageById();
@@ -21,56 +27,44 @@ if (isset($_GET['id'])) {
             $img = $image;
         } else {
             $errors = array('Greška kod dohvaćanja stare fotografije jezika!');
+            header("Location: languages.php");
         }
 
         $img_path = "img/lang/" . $img;
 
         if (is_dir($img_path)) {
             $errors = array('Jezik nema postavljenu fotografiju!');
+            header("Location: languages.php");
         } else {
             if (!unlink($img_path)) {
                 $errors = array('Greška pri brisanju fotografije jezika!');
+                header("Location: languages.php");
             }
         }
 
         if (!$lang->deleteLanguageImage()) {
             $errors = array('Greška pri brisanju fotografije jezika!');
+            header("Location: languages.php");
         }
     }
 } else {
     $errors = array('Dogodila se pogreška!');
 }
-
-$menu_items['main'] = array('Jezici', 'Korisnici', 'Ovlasti');
-$menu_links['main'] = array('languages.php', 'users.php', 'roles.php');
-$menu_items['sub'] = array('Novi jezik');
-$menu_links['sub'] = array('new_language.php');
-sidemenu($menu_items, $menu_links, "Jezici");
-?>
-<div id="page-content-wrapper">
-    <div class="container-fluid">
-        <h1 class="mt-4">Obriši fotografiju jezika</h1>
-        <?php
         if (isset($errors)) {
 
             if (sizeof($errors) > 0) {
 
                 foreach ($errors as $err) {
-        ?>
-                    <p class="text-danger"><?php echo $err ?></p>
-                    <button type="button" onclick="window.history.go(-1);" class="btn btn-outline-light-pink">Povratak</button>
-            <?php
+                    array_push($_SESSION['errors'], $err);
+                    header("Location: languages.php");
                 }
             }
         } else {
-            ?>
-            <p class='text-light'>Fotografija jezika uspješno obrisana!</p>
-            <a class="btn btn-outline-light-pink" href="languages.php" role="button">Povratak na programske jezike</a>
-        <?php
-        }
-        ?>
-    </div>
+        
+            array_push($_SESSION['success'], "Fotografija jezika uspješno obrisana!");
+            $_SESSION['status'] = 1;
+            header("Location: languages.php");
 
-    <?php
-    include_once("footer.php");
+        }
+
     ?>
