@@ -3,11 +3,6 @@ include_once("functions.php");
 include_once("class/language.php");
 $db = connect();
 session_start();
-$_SESSION['success'] = array();
-$_SESSION['errors'] = array();
-$_SESSION['show_modal'] = array('name'=>'');
-$_SESSION['show_modal']['name']="langimgModal";
-$_SESSION['status'] = 0;
 
 if (isset($_POST['id'])) {
 
@@ -15,30 +10,21 @@ if (isset($_POST['id'])) {
     $old_lang = new Language($db);
 
     if (!$stmt = $old_lang->getLanguageById($language_id)) {
-        $errors = array('Dogodila se pogreška!');
-        header("Location: languages.php");
-        exit;
+        echo json_encode(array('status'=>0,'message'=>'Dogodila se pogreška!'));
     }
 
     if (isset($_POST['submitted'])) {
         $errors = image_upload("lang-img");
     }
 } else {
-    $errors = array('Dogodila se pogreška!');
-    header("Location: languages.php");
-    exit;
+    echo json_encode(array('status'=>0,'message'=>'Dogodila se pogreška!'));
 }
 
 
 if (isset($errors)) {
 
     if (sizeof($errors) > 0) {
-
-        foreach ($errors as $err) {
-            array_push($_SESSION['errors'], $err);
-        }
-        header("Location: languages.php");
-        exit;
+        echo json_encode(array('status'=>0,'message'=>$errors));
     } else {
         $lang = new Language($db);
 
@@ -54,22 +40,15 @@ if (isset($errors)) {
             $lang->set_image($newfilename);
 
             if (!move_uploaded_file($_FILES["lang-img"]["tmp_name"], $target)) {
-                array_push($_SESSION['errors'], "Greška pri dodavanju slike!");
-                header("Location: languages.php");
-                exit;
+                echo json_encode(array('status'=>0,'message'=>'Greška pri dodavanju slike!'));
             } else {
 
                 if ($lang->editLanguageImage()) {
-                    array_push($_SESSION['success'], "Fotografija jezika uspješno promijenjena!");
-                    header("Location: languages.php");
-                    $_SESSION['status'] = 1;
-                    exit;
+                    echo json_encode(array('status'=>1,'message'=>'Fotografija jezika uspješno promijenjena!'));
                 }
             }
         } else {
-            array_push($_SESSION['errors'], "Molimo odaberite fotografiju!");
-            header("Location: languages.php");
-            exit;
+            echo json_encode(array('status'=>0,'message'=>'Molimo odaberite fotografiju!'));
         }
     }
 }

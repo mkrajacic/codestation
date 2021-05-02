@@ -3,44 +3,28 @@ include_once("functions.php");
 include_once("class/user.php");
 $db = connect();
 session_start();
-$_SESSION['success'] = array();
-$_SESSION['errors'] = array();
-$_SESSION['show_modal'] = array('name'=>'');
-$_SESSION['show_modal']['name']="userimgModal";
-$_SESSION['status'] = 0;
 
-$page = $_SERVER['HTTP_REFERER'];
+if (isset($_POST['user-id'])) {
 
-if (isset($_POST['id'])) {
-
-    $user_id = (int)$_POST['id'];
+    $user_id = (int)$_POST['user-id'];
     $user = new User($db);
 
     if (!$stmt = $user->getUserById($user_id)) {
-        $errors = array('Dogodila se pogreška!');
-        header("Location: " . $page);
-        exit;
+        echo json_encode(array('status'=>0,'message'=>'Dogodila se pogreška!'));
     }
 
     if (isset($_POST['submitted'])) {
         $errors = image_upload("user-img");
     }
 } else {
-    $errors = array('Dogodila se pogreška!');
-    header("Location: " . $page);
-    exit;
+    echo json_encode(array('status'=>0,'message'=>'Dogodila se pogreška!'));
 }
 
 
 if (isset($errors)) {
 
     if (sizeof($errors) > 0) {
-
-        foreach ($errors as $err) {
-            array_push($_SESSION['errors'], $err);
-        }
-        header("Location: " . $page);
-        exit;
+        echo json_encode(array('status'=>0,'message'=>$errors));
     } else {
         $user->set_id($user_id);
 
@@ -54,22 +38,15 @@ if (isset($errors)) {
             $user->set_image($newfilename);
 
             if (!move_uploaded_file($_FILES["user-img"]["tmp_name"], $target)) {
-                array_push($_SESSION['errors'], "Greška pri dodavanju slike!");
-                header("Location: " . $page);
-                exit;
+                echo json_encode(array('status'=>0,'message'=>'Greška pri dodavanju slike!'));
             } else {
 
                 if ($user->editUserImage()) {
-                    array_push($_SESSION['success'], "Slika profila uspješno promijenjena!");
-                    header("Location: " . $page);
-                    $_SESSION['status'] = 1;
-                    exit;
+                    echo json_encode(array('status'=>1,'message'=>'Slika profila uspješno promijenjena!'));
                 }
             }
         } else {
-            array_push($_SESSION['errors'], "Molimo odaberite fotografiju!");
-            header("Location: " . $page);
-            exit;
+            echo json_encode(array('status'=>0,'message'=>'Molimo odaberite fotografiju!'));
         }
     }
 }

@@ -4,6 +4,13 @@ include_once("header.php");
 include_once("class/user.php");
 $db = connect();
 
+session_start();
+if(check_user_status() != 0) {
+    $_SESSION['redirect_message'] = "Već ste registrirani u sustav!";
+    $_SESSION['show_modal'] = "redirectModal";
+    header("Location: index.php");
+}
+
 if (isset($_POST['submitted'])) {
     $form_fields = array('usr-username', 'usr-password', 'usr-password-repeat');
     $form_names = array('Korisničko ime', 'Lozinka', 'Ponovljena lozinka');
@@ -86,11 +93,4 @@ sidemenu($menu_items, $menu_links, "Korisnici");
 
     <?php
     include_once("footer.php");
-
-    session_start();
-    if(check_user_status() != 0) {
-        $_SESSION['redirect_message'] = "Već ste registrirani u sustav!";
-        $_SESSION['show_modal']['name'] = "redirectModal";
-        header("Location: index.php");
-    }
     ?>

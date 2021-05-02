@@ -19,6 +19,7 @@ function connect()
 <?php
 function user_header($user_id, $db)
 {
+  var_dump($_SESSION);
   $user = new User($db);
   if ($stmt = $user->getUserById($user_id)) {
     $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -62,20 +63,18 @@ function user_header($user_id, $db)
             </button>
           </div>
           <div class="modal-body">
-            <?php
-            show_modal_messages();
-            ?>
-            <form method="post" action="edit_user_image.php" enctype="multipart/form-data" id="userImg">
+            <div id="message" class='text-success'><p class="val-msg" id='val-msg'></p></div>
+            <form method="post" action="" enctype="multipart/form-data" id="userImg">
               <input type="hidden" name="submitted" id="submitted">
-              <input type="hidden" name="id" value="<?php echo $id ?>">
+              <input type="hidden" name="user-id" value="<?php echo $id ?>" id="user-id">
               <div class="form-group">
-                <label class="text-dark" for="lang-img">Slika profila</label>
+                <label class="text-dark" for="user-img">Slika profila</label>
                 <input type="file" class="form-control-file" id="user-img" name="user-img">
-                <small id="langnameHelp" class="form-text text-muted">Datoteka ne smije biti veća od 2MB. Dozvoljeni formati datoteke su png, jpg i jpeg.</small>
+                <small id="userImgHelp" class="form-text text-muted">Datoteka ne smije biti veća od 2MB. Dozvoljeni formati datoteke su png, jpg i jpeg.</small>
               </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" id="userimgSubmit" class="btn btn-pink">Uredi sliku</button>
+            <input type="button" id="userimgSubmit" class="btn btn-pink" value="Uredi sliku">
             </form>
             <a class="btn btn-outline-danger" href="delete_user_image.php?id=<?php echo $id ?>" role="button">Obriši sliku profila</a>
           </div>
@@ -83,7 +82,7 @@ function user_header($user_id, $db)
       </div>
     </div>
 
-    <!-- lang image del modal -->
+    <!-- user image del modal -->
     <div class="modal fade" id="userimgdelModal" tabindex="-1" role="dialog" aria-labelledby="userimgdelModal" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -355,9 +354,9 @@ function login(User $user)
 <?php
 function show_modal($modal_names)
 {
-  if (isset($_SESSION['show_modal']['name'])) {
+  if (isset($_SESSION['show_modal'])) {
 
-    $modal = $_SESSION['show_modal']['name'];
+    $modal = $_SESSION['show_modal'];
 
     foreach ($modal_names as $mod) {
 
@@ -371,11 +370,7 @@ function show_modal($modal_names)
         echo "<script>
       $('#$mod').modal('show');
       </script>";
-
-        unset($_SESSION['show_modal']['name']);
-        unset($_SESSION['status']);
-        // unset($_SESSION['success']);
-        // unset($_SESSION['errors']);
+      $_SESSION['show_modal'] = "";
       }
     }
   }
@@ -385,32 +380,7 @@ function show_modal($modal_names)
 <?php
 function show_modal_messages()
 {
-  if (isset($_SESSION['status'])) {
-
-    $status = $_SESSION['status'];
-    $messages = $_SESSION['errors'];
-    $success = $_SESSION['success'];
-    $x = array();
-    $y = array();
-
-    foreach ($messages as $m) {
-      array_push($x, $m);
-    }
-
-    foreach ($success as $s) {
-      array_push($y, $s);
-    }
-
-    if ($status == 1) {
-      foreach ($y as $mes) {
-        echo "<div class='text-success'><p class='val-msg'>" . $mes . "<br></p></div>";
-      }
-    } else if ($status == 0) {
-      foreach ($x as $suc) {
-        echo "<div class='text-danger'><p class='val-msg'>" . $suc . "<br></p></div>";
-      }
-    }
-  } else if (!empty($_SESSION['redirect_message'])) {
+   if (!empty($_SESSION['redirect_message'])) {
     echo $_SESSION['redirect_message'];
   }
 }
@@ -431,7 +401,6 @@ function insert_redirect_modal()
         </div>
         <div class="modal-body text-danger">
           <?php
-          session_start();
           show_modal_messages();
           ?>
         </div>

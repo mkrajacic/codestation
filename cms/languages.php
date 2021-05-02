@@ -16,12 +16,12 @@ if (isset($_SESSION['user_id'])) {
         $menu_links['main'] = array('languages.php');
     } else {
         $_SESSION['redirect_message'] = "Nije vam dopušten pristup sadržaju!";
-        $_SESSION['show_modal']['name'] = "redirectModal";
+        $_SESSION['show_modal'] = "redirectModal";
         header("Location: index.php");
     }
 } else {
     $_SESSION['redirect_message'] = "Nije vam dopušten pristup sadržaju!";
-    $_SESSION['show_modal']['name'] = "redirectModal";
+    $_SESSION['show_modal'] = "redirectModal";
     header("Location: index.php");
 }
 
@@ -42,7 +42,6 @@ sidemenu($menu_items, $menu_links, "Jezici");
 
         if ($numrows > 0) {
             $c = 0;
-            $modals = array();
             while ($language_row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($language_row);
                 echo "<br>";
@@ -66,57 +65,35 @@ sidemenu($menu_items, $menu_links, "Jezici");
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-dark" id="langimgModalLabel<?php echo $c; ?>">Promijeni fotografiju jezika</h5>
-                                <button type="button" id="close-button" class="close" data-dismiss="modal" aria-label="Close">
+                                <h5 class="modal-title text-dark langimgModalLabel">Promijeni fotografiju jezika</h5>
+                                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <?php
-                                show_modal_messages();
-                                ?>
-                                <form method="post" action="edit_language_image.php" enctype="multipart/form-data" id="langImg">
-                                    <input type="hidden" name="submitted" id="submitted">
-                                    <input type="hidden" name="id" value="<?php echo $id ?>">
+                                    <div id="message-lang-img<?php echo $c; ?>" class='text-success'><p class="val-msg" id='val-msg-lang-img<?php echo $c; ?>'></p></div>
+                                <form method="post" action="" enctype="multipart/form-data" id="langImg<?php echo $c; ?>">
+                                    <input type="hidden" name="lang-img-submitted<?php echo $c; ?>" id="lang-img-submitted<?php echo $c; ?>">
+                                    <input type="hidden" name="lang-img-id<?php echo $c; ?>" value="<?php echo $id ?>" id="lang-img-id<?php echo $c; ?>">
                                     <div class="form-group">
-                                        <label class="text-dark" for="lang-img">Slika</label>
-                                        <input type="file" class="form-control-file" id="lang-img" name="lang-img">
-                                        <small id="langnameHelp" class="form-text text-muted">Datoteka ne smije biti veća od 2MB. Dozvoljeni formati datoteke su png, jpg i jpeg.</small>
+                                        <label class="text-dark" for="lang-img<?php echo $c; ?>">Slika</label>
+                                        <input type="file" class="form-control-file" id="lang-img<?php echo $c; ?>" name="lang-img<?php echo $c; ?>">
+                                        <small id="langimgHelp<?php echo $c; ?>" class="form-text text-muted">Datoteka ne smije biti veća od 2MB. Dozvoljeni formati datoteke su png, jpg i jpeg.</small>
                                     </div>
-                                    <button type="submit" id="langImgSubmit" class="btn btn-pink">Uredi fotografiju</button>
+                                    <input type="button" class="btn btn-pink langImgSubmit" id="langImgSubmit-<?php echo $c; ?>" value="Uredi fotografiju">
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <a class="btn btn-outline-danger" href="delete_language_image.php?id=<?php echo $id ?>" role="button">Obriši fotografiju</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- lang image del modal -->
-                <div class="modal fade" id="langimgdelModal<?php echo $c; ?>" tabindex="-1" role="dialog" aria-labelledby="langimgdelModal<?php echo $c; ?>" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-dark">Obriši fotografiju jezika</h5>
-                                <button type="button" id="close-button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <?php
-                                show_modal_messages();
-                                ?>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="langImgdelConfirm<?php echo $c; ?>" class="btn btn-pink" data-dismiss="modal" aria-label="Close">U redu</button>
+                                <form action="" method="post" id="langImgDel">
+                                    <input type="hidden" name="lang-img-del-id<?php echo $c; ?>" value="<?php echo $id ?>" id="lang-img-del-id<?php echo $c; ?>">  
+                                    <input type="button" class="btn btn-outline-danger langImgDelSubmit" id="langImgDelSubmit-<?php echo $c; ?>" value="Obriši fotografiju">
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
         <?php
-            array_push($modals,'langimgModal' . $c,'langimgdelModal' . $c);
-            $c++;
+                $c++;
             }
         }
         ?>
@@ -124,5 +101,78 @@ sidemenu($menu_items, $menu_links, "Jezici");
 
     <?php
     include_once("footer.php");
-    show_modal($modals);
     ?>
+
+    <script>
+        $(document).ready(function() {
+            $('.langImgSubmit').click(function() {
+                var clickedBtnID = $(this).attr('id');
+                var modal_id = clickedBtnID.split("-").pop();
+
+                var fd = new FormData();
+                var submitted = $('#lang-img-submitted' + modal_id).val();
+                var id = $('#lang-img-id' + modal_id).val();
+                var file = $('#lang-img' + modal_id)[0].files[0];
+
+                fd.append('submitted', submitted);
+                fd.append('id', id);
+                fd.append('lang-img', file);
+
+                $.ajax({
+                    url: 'edit_language_image.php',
+                    type: 'post',
+                    cache: false,
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    dataType: "JSON",
+                    success: function(response) {
+                        if (response.status == 1) {
+                            $('#message-lang-img' + modal_id).attr('class', 'text-success');
+                            $('#val-msg-lang-img' + modal_id).html(response.message);
+                        } else {
+                            $('#message-lang-img' + modal_id).attr('class', 'text-danger');
+                            $('#val-msg-lang-img' + modal_id).html(response.message);
+                        }
+                    },
+                    error: function() {
+                        $('#message-lang-img' + modal_id).attr('class', 'text-danger');
+                        $('#val-msg-lang-img' + modal_id).html("Molimo odaberite datoteku!");
+                    }
+                });
+            });
+
+            $('.langImgDelSubmit').click(function() {
+                var clickedBtnID = $(this).attr('id');
+                var modal_id = clickedBtnID.split("-").pop();
+
+                var fd = new FormData();
+                var id = $('#lang-img-del-id' + modal_id).val();
+
+                fd.append('id', id);
+
+                $.ajax({
+                    url: 'delete_language_image.php',
+                    type: 'post',
+                    cache: false,
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    dataType: "JSON",
+                    success: function(response) {
+                        if (response.status == 1) {
+                            $('#message-lang-img' + modal_id).attr('class', 'text-success');
+                            $('#val-msg-lang-img' + modal_id).html(response.message);
+                        } else {
+                            $('#message-lang-img' + modal_id).attr('class', 'text-danger');
+                            $('#val-msg-lang-img' + modal_id).html(response.message);
+                        }
+                    },
+                    error: function() {
+                        $('#message-lang-img' + modal_id).attr('class', 'text-danger');
+                        $('#val-msg-lang-img' + modal_id).html("Dogodila se pogreška!");
+                    }
+                });
+            });
+        });
+    </script>

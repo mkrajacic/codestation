@@ -4,6 +4,16 @@ include_once("header.php");
 include_once("class/user.php");
 $db = connect();
 
+session_start();
+if (check_user_status() != 0) {
+    if (!(isset($_SESSION['fresh-login']) && $_SESSION['fresh-login'] == 1)) {
+        $_SESSION['redirect_message'] = "Već ste ulogirani u sustav!";
+        $_SESSION['show_modal'] = "redirectModal";
+        header("Location: index.php");
+    }
+}
+unset($_SESSION['fresh-login']);
+
 if (isset($_POST['submitted'])) {
     $form_fields = array('login-username', 'login-password');
     $form_names = array('Korisničko ime', 'Lozinka');
@@ -93,16 +103,6 @@ sidemenu($menu_items, $menu_links, "Korisnici");
 
     <?php
     include_once("footer.php");
-
-    session_start();
-    if (check_user_status() != 0) {
-        if (!(isset($_SESSION['fresh-login']) && $_SESSION['fresh-login'] == 1)) {
-            $_SESSION['redirect_message'] = "Već ste ulogirani u sustav!";
-            $_SESSION['show_modal']['name'] = "redirectModal";
-            header("Location: index.php");
-            unset($_SESSION['fresh-login']);
-        }
-    }
     ?>
     <script>
         function myOnloadFunc() {

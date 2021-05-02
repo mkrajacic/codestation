@@ -3,20 +3,14 @@ include_once("functions.php");
 include_once("class/language.php");
 $db = connect();
 session_start();
-$_SESSION['success'] = array();
-$_SESSION['errors'] = array();
-$_SESSION['show_modal'] = array('name'=>'');
-$_SESSION['show_modal']['name']="langimgdelModal";
-$_SESSION['status'] = 0;
 
-if (isset($_GET['id'])) {
+if (isset($_POST['id'])) {
 
-    $language_id = (int)$_GET['id'];
+    $language_id = (int)$_POST['id'];
     $lang = new Language($db);
 
     if (!$stmt = $lang->getLanguageById($language_id)) {
-        $errors = array('Dogodila se pogreška!');
-        header("Location: languages.php");
+        echo json_encode(array('status'=>0,'message'=>'Dogodila se pogreška!'));
     } else {
         $lang->set_id($language_id);
         $stmt = $lang->getImageById();
@@ -26,44 +20,34 @@ if (isset($_GET['id'])) {
             extract($image_row);
             $img = $image;
         } else {
-            $errors = array('Greška kod dohvaćanja stare fotografije jezika!');
-            header("Location: languages.php");
+            echo json_encode(array('status'=>0,'message'=>'Greška kod dohvaćanja stare fotografije jezika!'));
         }
 
         $img_path = "img/lang/" . $img;
 
         if (is_dir($img_path)) {
-            $errors = array('Jezik nema postavljenu fotografiju!');
-            header("Location: languages.php");
+            echo json_encode(array('status'=>0,'message'=>'Jezik nema postavljenu fotografiju!'));
         } else {
             if (!unlink($img_path)) {
-                $errors = array('Greška pri brisanju fotografije jezika!');
-                header("Location: languages.php");
+                echo json_encode(array('status'=>0,'message'=>'Greška pri brisanju fotografije jezika!'));
             }
         }
 
         if (!$lang->deleteLanguageImage()) {
-            $errors = array('Greška pri brisanju fotografije jezika!');
-            header("Location: languages.php");
+            echo json_encode(array('status'=>0,'message'=>'Greška pri brisanju fotografije jezika!'));
         }
     }
 } else {
-    $errors = array('Dogodila se pogreška!');
+    echo json_encode(array('status'=>0,'message'=>'Dogodila se pogreška!'));
 }
         if (isset($errors)) {
 
             if (sizeof($errors) > 0) {
-
-                foreach ($errors as $err) {
-                    array_push($_SESSION['errors'], $err);
-                    header("Location: languages.php");
-                }
+                echo json_encode(array('status'=>0,'message'=>$errors));
             }
         } else {
         
-            array_push($_SESSION['success'], "Fotografija jezika uspješno obrisana!");
-            $_SESSION['status'] = 1;
-            header("Location: languages.php");
+            echo json_encode(array('status'=>1,'message'=>'Fotografija jezika uspješno obrisana!'));
 
         }
 
