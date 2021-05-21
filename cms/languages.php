@@ -56,9 +56,10 @@ sidemenu($menu_items, $menu_links, "Jezici");
                 }
                 echo "<br><br>";
         ?>
+                <a class="btn btn-outline-light" href="lessons.php?id=<?php echo $id ?>" role="button">Lekcije</a><br>
                 <a class="btn btn-outline-light-pink" href="edit_language.php?id=<?php echo $id ?>" role="button">Uredi</a>
                 <button type="button" class="btn btn-outline-light-pink" data-toggle="modal" data-target="#langimgModal<?php echo $c; ?>">Uredi fotografiju</button>
-                <a class="btn btn-outline-strong-pink" href="delete_language_confirmation.php?id=<?php echo $id ?>" role="button">Obriši</a><br>
+                <a class="btn btn-outline-strong-pink" href="delete_language_confirmation.php?id=<?php echo $id ?>" role="button">Obriši</a>
 
                 <!-- lang image edit modal -->
                 <div class="modal fade" id="langimgModal<?php echo $c; ?>" tabindex="-1" role="dialog" aria-labelledby="langimgModal<?php echo $c; ?>" aria-hidden="true">

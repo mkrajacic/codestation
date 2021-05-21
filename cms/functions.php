@@ -19,7 +19,6 @@ function connect()
 <?php
 function user_header($user_id, $db)
 {
-  var_dump($_SESSION);
   $user = new User($db);
   if ($stmt = $user->getUserById($user_id)) {
     $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -63,7 +62,9 @@ function user_header($user_id, $db)
             </button>
           </div>
           <div class="modal-body">
-            <div id="message" class='text-success'><p class="val-msg" id='val-msg'></p></div>
+            <div id="message" class='text-success'>
+              <p class="val-msg" id='val-msg'></p>
+            </div>
             <form method="post" action="" enctype="multipart/form-data" id="userImg">
               <input type="hidden" name="submitted" id="submitted">
               <input type="hidden" name="user-id" value="<?php echo $id ?>" id="user-id">
@@ -370,7 +371,7 @@ function show_modal($modal_names)
         echo "<script>
       $('#$mod').modal('show');
       </script>";
-      $_SESSION['show_modal'] = "";
+        $_SESSION['show_modal'] = "";
       }
     }
   }
@@ -380,7 +381,7 @@ function show_modal($modal_names)
 <?php
 function show_modal_messages()
 {
-   if (!empty($_SESSION['redirect_message'])) {
+  if (!empty($_SESSION['redirect_message'])) {
     echo $_SESSION['redirect_message'];
   }
 }

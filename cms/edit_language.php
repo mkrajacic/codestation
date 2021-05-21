@@ -28,8 +28,8 @@ if (isset($_GET['id'])) {
     $errors = array('Dogodila se pogreška!');
 }
 
-$menu_items['main'] = array('Jezici', 'Lekcije', 'Pitanja', 'Korisnici', 'Ovlasti');
-$menu_links['main'] = array('languages.php', 'lessons.php', 'questions.php', 'users.php', 'roles.php');
+$menu_items['main'] = array('Jezici', 'Korisnici', 'Ovlasti');
+$menu_links['main'] = array('languages.php', 'users.php', 'roles.php');
 $menu_items['sub'] = array('Novi jezik');
 $menu_links['sub'] = array('new_language.php');
 sidemenu($menu_items, $menu_links, "Jezici");
