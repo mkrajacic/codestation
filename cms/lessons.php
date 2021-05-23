@@ -1,11 +1,19 @@
 <?php
-$title = "Jezici";
+$title = "Lekcije";
 include_once("header.php");
 include_once("class/language.php");
 include_once("class/lesson.php");
 include_once("class/user.php");
 $db = connect();
 session_start();
+
+if (isset($_GET['lid'])) {
+    $language_id = (int)$_GET['lid'];
+}else{
+    $_SESSION['redirect_message'] = "Dogodila se pogreška!";
+    $_SESSION['show_modal'] = "redirectModal";
+    header("Location: languages.php");
+}
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -24,14 +32,6 @@ if (isset($_SESSION['user_id'])) {
     $_SESSION['redirect_message'] = "Nije vam dopušten pristup sadržaju!";
     $_SESSION['show_modal'] = "redirectModal";
     header("Location: index.php");
-}
-
-if (isset($_GET['id'])) {
-    $language_id = (int)$_GET['id'];
-}else{
-    $_SESSION['redirect_message'] = "Dogodila se pogreška!";
-    $_SESSION['show_modal'] = "redirectModal";
-    header("Location: languages.php.php");
 }
 
 $menu_items['sub'] = array('Nova lekcija');
@@ -60,7 +60,7 @@ sidemenu($menu_items, $menu_links, "Jezici");
                 echo $description;
                 echo "<br><br>";
         ?>
-                <a class="btn btn-outline-light" href="questions.php?id=<?php echo $id ?>" role="button">Pitanja</a><br>
+                <a class="btn btn-outline-light" href="questions.php?lid=<?php echo $id ?>" role="button">Pitanja</a><br>
                 <a class="btn btn-outline-light-pink" href="edit_lesson.php?id=<?php echo $id ?>" role="button">Uredi</a>
                 <a class="btn btn-outline-strong-pink" href="delete_lesson_confirmation.php?id=<?php echo $id ?>" role="button">Obriši</a>
 

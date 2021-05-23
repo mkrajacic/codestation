@@ -109,11 +109,17 @@ class Question
         $query = "SELECT l.id, l.question, l.lesson_id,l.question_type FROM " . $this->table . " l WHERE question_type=? ORDER BY l.id";
 
         if($byLessId) {
-            $query = "SELECT l.id, l.question, l.lesson_id,l.question_type FROM " . $this->table . " l WHERE l.lesson_id=? ORDER BY l.id";
+            $query = "SELECT l.id, l.question, l.lesson_id,l.question_type FROM " . $this->table . " l WHERE l.lesson_id=? AND question_type=? ORDER BY l.id";
         }
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $type);
+
+        if($byLessId) {
+            $stmt->bindParam(1, $this->lesson_id);
+            $stmt->bindParam(2, $type);
+        }else{
+            $stmt->bindParam(1, $type);
+        }
 
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
@@ -128,7 +134,7 @@ class Question
     public function getQuestionById($id)
     {
 
-        $query = "SELECT l.id, l.name, l.description, l.language_id FROM " . $this->table . " l WHERE l.id=?";
+        $query = "SELECT l.id, l.question, l.lesson_id,l.question_type FROM " . $this->table . " l WHERE l.id=? ORDER BY l.id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
@@ -145,17 +151,17 @@ class Question
     public function createQuestion()
     {
 
-        $query = "INSERT INTO " . $this->table . " (name,description,language_id) VALUES (?,?,?)";
+        $query = "INSERT INTO " . $this->table . " (question,lesson_id,question_type) VALUES (?,?,?)";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->name = trim(htmlspecialchars(strip_tags($this->name)));
-        $this->description = trim(htmlspecialchars(strip_tags($this->description)));
-        $this->language_id = trim(htmlspecialchars(strip_tags($this->language_id)));
+        $this->question = trim(htmlspecialchars(strip_tags($this->question)));
+        $this->lesson_id = trim(htmlspecialchars(strip_tags($this->lesson_id)));
+        $this->question_type = trim(htmlspecialchars(strip_tags($this->question_type)));
 
-        $stmt->bindParam(1, $this->name);
-        $stmt->bindParam(2, $this->description);
-        $stmt->bindParam(3, $this->language_id);
+        $stmt->bindParam(1, $this->question);
+        $stmt->bindParam(2, $this->lesson_id);
+        $stmt->bindParam(3, $this->question_type);
 
         if ($stmt->execute()) {
             return true;
@@ -175,18 +181,18 @@ class Question
         if ($check->execute()) {
 
             if ($check->rowCount() > 0) {
-                $query = "UPDATE " . $this->table . " SET name=?,description=?,language_id=? WHERE id=?";
+                $query = "UPDATE " . $this->table . " SET question=?,lesson_id=?,question_type=? WHERE id=?";
 
                 $stmt = $this->conn->prepare($query);
 
-                $this->name = trim(htmlspecialchars(strip_tags($this->name)));
-                $this->description = trim(htmlspecialchars(strip_tags($this->description)));
-                $this->language_id = trim(htmlspecialchars(strip_tags($this->language_id)));
+                $this->question = trim(htmlspecialchars(strip_tags($this->question)));
+                $this->lesson_id = trim(htmlspecialchars(strip_tags($this->lesson_id)));
+                $this->question_type = trim(htmlspecialchars(strip_tags($this->question_type)));
 
-                $stmt->bindParam(1, $this->name);
-                $stmt->bindParam(2, $this->description);
-                $stmt->bindParam(3, $this->language_id);
-                $stmt->bindParam(3, $this->id);
+                $stmt->bindParam(1, $this->question);
+                $stmt->bindParam(2, $this->lesson_id);
+                $stmt->bindParam(3, $this->question_type);
+                $stmt->bindParam(4, $this->id);
 
                 if ($stmt->execute()) {
                     return true;

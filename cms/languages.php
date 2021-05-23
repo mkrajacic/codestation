@@ -56,7 +56,7 @@ sidemenu($menu_items, $menu_links, "Jezici");
                 }
                 echo "<br><br>";
         ?>
-                <a class="btn btn-outline-light" href="lessons.php?id=<?php echo $id ?>" role="button">Lekcije</a><br>
+                <a class="btn btn-outline-light" href="lessons.php?lid=<?php echo $id ?>" role="button">Lekcije</a><br>
                 <a class="btn btn-outline-light-pink" href="edit_language.php?id=<?php echo $id ?>" role="button">Uredi</a>
                 <button type="button" class="btn btn-outline-light-pink" data-toggle="modal" data-target="#langimgModal<?php echo $c; ?>">Uredi fotografiju</button>
                 <a class="btn btn-outline-strong-pink" href="delete_language_confirmation.php?id=<?php echo $id ?>" role="button">Obriši</a>
@@ -100,8 +100,14 @@ sidemenu($menu_items, $menu_links, "Jezici");
         ?>
     </div>
 
+
+    <?php
+    insert_redirect_modal();
+    ?>
+
     <?php
     include_once("footer.php");
+    show_modal(array('redirectModal'));
     ?>
 
     <script>

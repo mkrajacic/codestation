@@ -165,7 +165,7 @@ class Lesson
                 $stmt->bindParam(1, $this->name);
                 $stmt->bindParam(2, $this->description);
                 $stmt->bindParam(3, $this->language_id);
-                $stmt->bindParam(3, $this->id);
+                $stmt->bindParam(4, $this->id);
 
                 if ($stmt->execute()) {
                     return true;
