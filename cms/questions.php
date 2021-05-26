@@ -28,10 +28,10 @@ if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     if (check_user_status() == 1) {
         $menu_items['main'] = array('Jezici', 'Lekcije', 'Korisnici', 'Ovlasti');
-        $menu_links['main'] = array('languages.php','lessons.php?lid=' . $language_id, 'users.php', 'roles.php');
+        $menu_links['main'] = array('languages.php','lessons.php?lid=' . $lang_id, 'users.php', 'roles.php');
     } else if (check_user_status() == 2) {
         $menu_items['main'] = array('Jezici','Lekcije');
-        $menu_links['main'] = array('languages.php','lessons.php?lid=' . $language_id);
+        $menu_links['main'] = array('languages.php','lessons.php?lid=' . $lang_id);
     } else {
         $_SESSION['redirect_message'] = "Nije vam dopušten pristup sadržaju!";
         $_SESSION['show_modal'] = "redirectModal";
@@ -71,7 +71,7 @@ sidemenu($menu_items, $menu_links, "Jezici");
                 echo $question_type;
                 echo "<br><br>";
         ?>
-                <a class="btn btn-outline-light" href="answers.php?id=<?php echo $id ?>" role="button">Odgovori</a><br>
+                <a class="btn btn-outline-light" href="answers.php?qid=<?php echo $id ?>" role="button">Odgovori</a><br>
                 <a class="btn btn-outline-light-pink" href="edit_question.php?id=<?php echo $id ?>" role="button">Uredi</a>
                 <a class="btn btn-outline-strong-pink" href="delete_question_confirmation.php?id=<?php echo $id ?>" role="button">Obriši</a>
 
@@ -79,6 +79,8 @@ sidemenu($menu_items, $menu_links, "Jezici");
         <?php
                 $c++;
             }
+        }else{
+            echo "Nema rezultata";
         }
         ?>
     </div>

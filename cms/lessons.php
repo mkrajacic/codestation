@@ -68,6 +68,8 @@ sidemenu($menu_items, $menu_links, "Jezici");
         <?php
                 $c++;
             }
+        }else{
+            echo "Nema rezultata";
         }
         ?>
     </div>
