@@ -10,7 +10,7 @@
         $('#userimgSubmit').click(function() {
             var fd = new FormData();
             var submitted = $('#submitted').val();
-            var user_id = $('#user-id').val();
+            var user_id = $('#user-img-edit-id').val();
             var file = $('#user-img')[0].files[0];
 
             fd.append('submitted', submitted);
@@ -39,6 +39,37 @@
                     $('#val-msg').html("Molimo odaberite datoteku!");
                 }
             });
+        });
+    });
+
+    $('#userImgDelSubmit').click(function() {
+        var fd = new FormData();
+        var user_id = $('#user-img-del-id').val();
+
+        fd.append('user-id', user_id);
+
+        $.ajax({
+            url: 'delete_user_image.php',
+            type: 'post',
+            cache: false,
+            data: fd,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            success: function(response) {
+                if (response.status == 1) {
+                    $('#message').attr('class', 'text-success');
+                    $('#val-msg').html(response.message);
+                } else {
+                    $('#message').attr('class', 'text-danger');
+                    $('#val-msg').html(response.message);
+                }
+            },
+            error: function(/*xhr*/) {
+                $('#message').attr('class', 'text-danger');
+                //$('#val-msg').html('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                $('#val-msg').html('Dogodila se pogreška!');
+            }
         });
     });
 

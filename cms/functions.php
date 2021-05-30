@@ -67,17 +67,20 @@ function user_header($user_id, $db)
             </div>
             <form method="post" action="" enctype="multipart/form-data" id="userImg">
               <input type="hidden" name="submitted" id="submitted">
-              <input type="hidden" name="user-id" value="<?php echo $id ?>" id="user-id">
+              <input type="hidden" name="user-img-edit-id" value="<?php echo $id ?>" id="user-img-edit-id">
               <div class="form-group">
                 <label class="text-dark" for="user-img">Slika profila</label>
                 <input type="file" class="form-control-file" id="user-img" name="user-img">
                 <small id="userImgHelp" class="form-text text-muted">Datoteka ne smije biti veća od 2MB. Dozvoljeni formati datoteke su png, jpg i jpeg.</small>
               </div>
+              <input type="button" id="userimgSubmit" class="btn btn-pink" value="Uredi sliku">
+            </form>
           </div>
           <div class="modal-footer">
-            <input type="button" id="userimgSubmit" class="btn btn-pink" value="Uredi sliku">
+            <form action="" method="post" id="userImgDel">
+              <input type="hidden" name="user-img-del-id" value="<?php echo $id ?>" id="user-img-del-id">
+              <input type="button" class="btn btn-outline-danger" id="userImgDelSubmit" value="Obriši sliku">
             </form>
-            <a class="btn btn-outline-danger" href="delete_user_image.php?id=<?php echo $id ?>" role="button">Obriši sliku profila</a>
           </div>
         </div>
       </div>
