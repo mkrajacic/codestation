@@ -73,6 +73,39 @@
         });
     });
 
+    $('#usernameSubmit').click(function() {
+        var fd = new FormData();
+        var user_id = $('#user-name-id').val();
+        var username = $('#usr-username').val();
+
+        fd.append('user-name-id', user_id);
+        fd.append('usr-username', username);
+
+        $.ajax({
+            url: 'edit_username.php',
+            type: 'post',
+            cache: false,
+            data: fd,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            success: function(response) {
+                if (response.status == 1) {
+                    $('#username-message').attr('class', 'text-success');
+                    $('#val-msg-username').html(response.message);
+                } else {
+                    $('#username-message').attr('class', 'text-danger');
+                    $('#val-msg-username').html(response.message);
+                }
+            },
+            error: function(xhr) {
+                $('#username-message').attr('class', 'text-danger');
+                $('#val-msg-username').html('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText + JSON.stringify(xhr));
+                //$('#val-msg-username').html('Dogodila se pogreška!');
+            }
+        });
+    });
+
     $('.modal').on('hidden.bs.modal', function() {
         $('.val-msg').empty();
     });

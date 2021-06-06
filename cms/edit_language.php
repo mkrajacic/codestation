@@ -10,11 +10,6 @@ if (isset($_POST['id'])) {
 
     if (!$stmt = $old_lang->getLanguageById($language_id)) {
         echo json_encode(array('status' => 0, 'message' => 'Dogodila se pogreška!'));
-    } else {
-        $language_row = $stmt->fetch(PDO::FETCH_ASSOC);
-        extract($language_row);
-        $old_name = $name;
-        $old_desc = $description;
     }
 
     if (isset($_POST['submitted'])) {

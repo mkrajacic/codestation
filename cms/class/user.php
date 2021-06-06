@@ -199,7 +199,7 @@ class User
         return false;
     }
 
-    public function editUser()
+    public function editUsername()
     {
 
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -211,17 +211,13 @@ class User
         if ($check->execute()) {
 
             if ($check->rowCount() > 0) {
-                $query = "UPDATE " . $this->table . " SET username=?,password=?,role_code=? WHERE id=?";
+                $query = "UPDATE " . $this->table . " SET username=? WHERE id=?";
 
                 $stmt = $this->conn->prepare($query);
 
                 $this->username = trim(htmlspecialchars(strip_tags($this->username)));
-                $this->password = $this->password;
-                $this->role_code = trim(htmlspecialchars(strip_tags($this->role_code)));
 
                 $stmt->bindParam(1, $this->username);
-                $stmt->bindParam(2, $this->password);
-                $stmt->bindParam(3, $this->role_code);
                 $stmt->bindParam(4, $this->id);
 
                 if ($stmt->execute()) {

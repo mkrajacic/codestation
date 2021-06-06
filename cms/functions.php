@@ -39,13 +39,13 @@ function user_header($user_id, $db)
                                       }
                                       ?>">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-white" href="#">Novo korisničko ime</a>
+            <a class="dropdown-item text-white" href="#" data-toggle="modal" data-target="#usernameModal">Novo korisničko ime</a>
             <a class="dropdown-item text-white" href="#" data-toggle="modal" data-target="#userimgModal">Uredi sliku profila</a>
-            <a class="dropdown-item text-white" href="#">Promijena lozinke</a>
+            <a class="dropdown-item text-white" href="#" data-toggle="modal" data-target="#passwordModal">Promijena lozinke</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item text-warning" href="logout.php">Odjava</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-pink" href="#">Deaktivacija</a>
+            <a class="dropdown-item text-pink" href="#" data-toggle="modal" data-target="#deactivateModal">Deaktivacija</a>
           </div>
         </li>
       </ul>
@@ -86,27 +86,37 @@ function user_header($user_id, $db)
       </div>
     </div>
 
-    <!-- user image del modal -->
-    <div class="modal fade" id="userimgdelModal" tabindex="-1" role="dialog" aria-labelledby="userimgdelModal" aria-hidden="true">
+    <!-- edit username modal -->
+    <div class="modal fade" id="usernameModal" tabindex="-1" role="dialog" aria-labelledby="usernameModal" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-dark">Obriši sliku profila</h5>
+            <h5 class="modal-title text-dark" id="usernameModalLabel">Promijeni korisničko ime</h5>
             <button type="button" id="close-button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <?php
-            show_modal_messages();
-            ?>
+            <div id="username-message" class='text-success'>
+              <p class="val-msg" id='val-msg-username'></p>
+            </div>
+            <form method="post" action="" id="username">
+              <input type="hidden" name="submitted" id="submitted">
+              <input type="hidden" name="user-name-id" value="<?php echo $id ?>" id="user-name-id">
+              <div class="form-group">
+              <label class="text-dark" for="usr-username">Korisničko ime</label>
+                <input type="text" class="form-control" id="usr-username" name="usr-username" aria-describedby="usernameHelp" placeholder="Upišite korisničko ime">
+                <small id="usernameHelp" class="form-text text-muted">Korisničko ime ne smije sadržavati manje od 3 ili više od 15 znakova. Dozvoljeni su samo znakovi engleske abecede, brojevi te znak "_". Korisničko ime mora sadržavati barem 1 slovo.</small>
+              </div>
           </div>
           <div class="modal-footer">
-            <button type="button" id="userImgdelConfirm" class="btn btn-pink" data-dismiss="modal" aria-label="Close">U redu</button>
+            <input type="button" id="usernameSubmit" class="btn btn-pink" value="Pošalji">
+            </form>
           </div>
         </div>
       </div>
     </div>
+
 <?php
   }
 }
