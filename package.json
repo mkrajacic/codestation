@@ -1,0 +1,22 @@
+{
+  "name": "prog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkrajacic/prog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mkrajacic/prog/issues"
+  },
+  "homepage": "https://github.com/mkrajacic/prog#readme",
+  "dependencies": {
+    "cors-anywhere": "^0.4.4"
+  }
+}
