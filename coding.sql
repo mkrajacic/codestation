@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2021 at 07:49 PM
+-- Generation Time: Jun 08, 2021 at 06:15 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -52,8 +52,8 @@ CREATE TABLE `language` (
 --
 
 INSERT INTO `language` (`id`, `name`, `image`, `description`) VALUES
-(1, 'Python', '1619434641.png', 'Python je interpreterski programski jezik. Interpreterski programski jezici\r\nsu jezici kod kojih se izvorni kôd izvršava direktno uz pomoć\r\ninterpretera, tj. kod ovakvih tipova programskih jezika nema potrebe za\r\nkompajliranjem prije izvršavanja, tj. prevođenjem u izvršni oblik.\r\nProgrami pisani u programskom jeziku Python su kraći, a i za njihovo\r\npisanje utrošak vremena je puno manji. Python programerima dopušta\r\nnekoliko stilova pisanja programa: strukturno, objektno orijentirano i\r\naspektno orijentirano programiranje'),
-(3, 'C#', '1619260299.png', 'C# je objektno orijentirani programski jezik kojeg su razvili Anders Hejlsberg i drugi u tvrtci Microsoft.\r\nC# je izumljen s ciljem da .NET platforma dobije programski jezik, koji bi maksimalno iskoristio njezine sposobnosti. Sličan je programskim jezicima Java i C++.');
+(1, 'Python', NULL, 'Python je interpreterski programski jezik. Interpreterski programski jezici\nsu jezici kod kojih se izvorni kôd izvršava direktno uz pomoć\ninterpretera, tj. kod ovakvih tipova programskih jezika nema potrebe za\nkompajliranjem prije izvršavanja, tj. prevođenjem u izvršni oblik.\nProgrami pisani u programskom jeziku Python su kraći, a i za njihovo\npisanje utrošak vremena je puno manji. Python programerima dopušta\nnekoliko stilova pisanja programa: strukturno, objektno orijentirano i\naspektno orijentirano programiranje'),
+(3, 'C#', NULL, 'C# je objektno orijentirani programski jezik kojeg su razvili Anders Hejlsberg i drugi u tvrtci Microsoft.\nC# je izumljen s ciljem da .NET platforma dobije programski jezik, koji bi maksimalno iskoristio njezine sposobnosti. Sličan je programskim jezicima Java i C++.');
 
 -- --------------------------------------------------------
 
@@ -68,6 +68,16 @@ CREATE TABLE `lesson` (
   `language_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `lesson`
+--
+
+INSERT INTO `lesson` (`id`, `name`, `description`, `language_id`) VALUES
+(4, 'this is a lesson', 'this is a desc of the lesson this is a desc of the lesson this is a desc of the lesson this is a desc of the lesson', 1),
+(5, 'this is a lesson once again', 'this is a desc of the lesson this is a desc of the lnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnesson this is a', 3),
+(6, 'this is a lesson agan', 'this is a desc of the lesson this is a desc of the lessothis is a desc of the lesson this is a desc of the lesson this is a desc of the lesson n', 3),
+(7, 'fruits basket', 'gatiru hatori gatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatori', 3);
+
 -- --------------------------------------------------------
 
 --
@@ -81,6 +91,14 @@ CREATE TABLE `question` (
   `question_type` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `question`
+--
+
+INSERT INTO `question` (`id`, `question`, `lesson_id`, `question_type`) VALUES
+(3, 'sohma yuki', 7, 4),
+(6, 'Crimea is ______?', 6, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -91,6 +109,15 @@ CREATE TABLE `question_type` (
   `id` int(11) NOT NULL,
   `type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `question_type`
+--
+
+INSERT INTO `question_type` (`id`, `type`) VALUES
+(1, 'Ponuđeni odgovori'),
+(3, 'Nadopunjavanje'),
+(4, 'Kodiranje');
 
 -- --------------------------------------------------------
 
@@ -268,7 +295,7 @@ ALTER TABLE `user_session_question`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `language`
@@ -280,19 +307,19 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `lesson`
 --
 ALTER TABLE `lesson`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `question_type`
 --
 ALTER TABLE `question_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_profile`

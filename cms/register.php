@@ -14,7 +14,7 @@ if(check_user_status() != 0) {
 if (isset($_POST['submitted'])) {
     $form_fields = array('usr-username', 'usr-password', 'usr-password-repeat');
     $form_names = array('Korisničko ime', 'Lozinka', 'Ponovljena lozinka');
-    $errors = validate_user($form_fields, $form_names, $db);
+    $errors = validate($form_fields, $form_names, $db, null,"User");
 
     $username = $_POST['usr-username'];
     $password1 = $_POST['usr-password'];

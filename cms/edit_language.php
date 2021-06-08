@@ -16,7 +16,7 @@ if (isset($_POST['id'])) {
         $form_fields = array('lang-name', 'lang-desc');
         $form_names = array('Naziv jezika', 'Opis jezika');
 
-        $errors = validateLanguage($form_fields, $form_names, $db, $language_id);
+        $errors = validate($form_fields, $form_names, $db, $language_id,"Language");
     }
 } else {
     echo json_encode(array('status' => 0, 'message' => 'Dogodila se pogreška!'));

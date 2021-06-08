@@ -17,7 +17,7 @@ unset($_SESSION['fresh-login']);
 if (isset($_POST['submitted'])) {
     $form_fields = array('login-username', 'login-password');
     $form_names = array('Korisničko ime', 'Lozinka');
-    $errors = validate_user($form_fields, $form_names, $db);
+    $errors = validate($form_fields, $form_names, $db, null,"User");
 
     $username = $_POST['login-username'];
     $password = $_POST['login-password'];

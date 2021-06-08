@@ -8,7 +8,7 @@ if (isset($_POST['submitted'])) {
     $form_fields = array('lang-name', 'lang-desc');
     $form_names = array('Naziv jezika', 'Opis jezika');
 
-    $errors = validateLanguage($form_fields, $form_names, $db);
+    $errors = validate($form_fields, $form_names, $db,null,"Language");
     $img_err = image_upload("lang-img");
 
     foreach ($img_err as $er) {

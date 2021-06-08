@@ -18,6 +18,7 @@ if (isset($_GET['qid'])) {
         $question_row = $quest_id_stmt->fetch(PDO::FETCH_ASSOC);
         extract($question_row);
         $les_id = $lesson_id;
+        $question_name = $question;
     }
 }else{
     $_SESSION['redirect_message'] = "Dogodila se pogreška!";
@@ -45,14 +46,14 @@ if (isset($_SESSION['user_id'])) {
 }
 
 $menu_items['sub'] = array('Novi odgovor');
-$menu_links['sub'] = array('new_answer.php');
+$menu_links['sub'] = array('new_answer.php?qid=' . $question_id);
 sidemenu($menu_items, $menu_links, "Jezici");
 ?>
 
 <div id="page-content-wrapper">
     <?php user_header($user_id, $db); ?>
     <div class="container-fluid">
-        <h1 class="mt-4">Popis odgovora za pitanje</h1>
+        <h1 class="mt-4">Popis odgovora za pitanje <?php echo $question_name ?></h1>
         <?php
         $answer = new Answer($db); 
         $answer->set_question_id($question_id);
@@ -65,15 +66,15 @@ sidemenu($menu_items, $menu_links, "Jezici");
             while ($answer_row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($answer_row);
                 echo "<br>";
-                echo $answer;
+                echo "Odgovor: " . $answer;
                 echo "<br>";
-                echo $question_id;
+                echo "ID pitanja: " . $question_id;
                 echo "<br>";
-                echo $correct;
+                echo "Točan: " . $correct;
                 echo "<br><br>";
         ?>
-                <a class="btn btn-outline-light-pink" href="edit_answer.php?id=<?php echo $id ?>" role="button">Uredi</a>
-                <a class="btn btn-outline-strong-pink" href="delete_answer_confirmation.php?id=<?php echo $id ?>" role="button">Obriši</a>
+                <button type="button" class="btn btn-outline-light-pink" data-toggle="modal" data-target="#answrEditModal<?php echo $c; ?>">Uredi</button>
+                <button type="button" class="btn btn-outline-strong-pink" data-toggle="modal" data-target="#answrDelModal<?php echo $c; ?>">Obriši</button>
 
                 
         <?php

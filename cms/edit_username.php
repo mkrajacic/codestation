@@ -11,7 +11,7 @@ if (isset($_POST['user-name-id'])) {
         if (isset($_POST['submitted'])) {
             $form_fields = array('usr-username');
             $form_names = array('Korisničko ime');
-            $errors = validate_user($form_fields, $form_names, $db);
+            $errors = validate($form_fields, $form_names, $db, null,"User");
         }
     }
 } else {

@@ -100,11 +100,11 @@ function user_header($user_id, $db)
             <div id="username-message" class='text-success'>
               <p class="val-msg" id='val-msg-username'></p>
             </div>
-            <form method="post" action="" id="username">
+            <form method="post" action="" id="username" enctype="multipart/form-data">
               <input type="hidden" name="submitted" id="submitted">
               <input type="hidden" name="user-name-id" value="<?php echo $id ?>" id="user-name-id">
               <div class="form-group">
-              <label class="text-dark" for="usr-username">Korisničko ime</label>
+                <label class="text-dark" for="usr-username">Korisničko ime</label>
                 <input type="text" class="form-control" id="usr-username" name="usr-username" aria-describedby="usernameHelp" placeholder="Upišite korisničko ime">
                 <small id="usernameHelp" class="form-text text-muted">Korisničko ime ne smije sadržavati manje od 3 ili više od 15 znakova. Dozvoljeni su samo znakovi engleske abecede, brojevi te znak "_". Korisničko ime mora sadržavati barem 1 slovo.</small>
               </div>
@@ -172,12 +172,10 @@ function sidemenu($menu_items, $menu_links, $category = "Index")
 ?>
 
 <?php
-function validateLanguage($form_fields, $form_names, $db, $id = null)
+function validate($form_fields, $form_names, $db, $id = null, $type)
 {
   $errors = array();
   $count = 0;
-
-  $lang = new Language($db);
 
   foreach ($form_fields as $field) {
 
@@ -188,97 +186,119 @@ function validateLanguage($form_fields, $form_names, $db, $id = null)
     } else if (ctype_space($_POST["$field"])) {
       array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno!");
     } else {
-      if ($field == "lang-name") {
-        if (strlen($_POST["$field"]) > 25) {
-          array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti duže od 25 znakova!");
-        }
-        $lang->set_name(trim(htmlspecialchars(strip_tags($_POST["$field"]))));
-        if (!empty($id)) {
-          $lang->set_id(trim(htmlspecialchars(strip_tags($id))));
-        }
-        if (!$lang->isUniqueName()) {
-          array_push($errors, "Već postoji jezik sa istim nazivom!");
-        }
-      }
-      if ($field == "lang-desc") {
-        if (strlen($_POST["$field"]) < 100) {
-          array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 100 znakova!");
-        }
-      }
-    }
 
-    $count++;
-  }
+      switch ($type) {
+        case "Language":
+          $lang = new Language($db);
+          if ($field == "lang-name") {
+            if (strlen($_POST["$field"]) > 25) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti duže od 25 znakova!");
+            }
+            $lang->set_name(trim(htmlspecialchars(strip_tags($_POST["$field"]))));
+            if (!empty($id)) {
+              $lang->set_id(trim(htmlspecialchars(strip_tags($id))));
+            }
+            if (!$lang->isUniqueName()) {
+              array_push($errors, "Već postoji jezik sa istim nazivom!");
+            }
+          }
+          if ($field == "lang-desc") {
+            if (strlen($_POST["$field"]) < 100) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 100 znakova!");
+            }
+          }
+          break;
+        case "User":
+          $user = new User($db);
+          if ($field == "usr-username") {
 
-  return $errors;
-}
-?>
+            if (strlen($_POST["$field"]) > 15) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti duže od 15 znakova!");
+            } else if (strlen($_POST["$field"]) < 3) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti kraće od 3 znaka!");
+            }
 
-<?php
-function validate_user($form_fields, $form_names, $db, $id = null)
-{
-  $errors = array();
-  $count = 0;
+            $user->set_username(trim(htmlspecialchars(strip_tags($_POST["$field"]))));
+            if (!empty($id)) {
+              $user->set_id(trim(htmlspecialchars(strip_tags($id))));
+            }
+            if (!$user->isUniqueUsername()) {
+              array_push($errors, "Korisničko ime već je zauzeto!");
+            }
 
-  $user = new User($db);
-  foreach ($form_fields as $field) {
+            $allowed = array("_");
 
-    if (!isset($_POST["$field"])) {
-      array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno!");
-    } else if (empty($_POST["$field"])) {
-      array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno!");
-    } else if (ctype_space($_POST["$field"])) {
-      array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno!");
-    } else {
+            if (!ctype_alnum(str_replace($allowed, '', $_POST["$field"]))) {
+              array_push($errors, "Neispravno korisničko ime!");
+            }
 
-      if ($field == "usr-username") {
+            if (!preg_match("#[A-Za-z]+#", $_POST["$field"])) {
+              array_push($errors, "Korisničko ime mora sadržavati barem jedno slovo!");
+            }
+          }
 
-        if (strlen($_POST["$field"]) > 15) {
-          array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti duže od 15 znakova!");
-        } else if (strlen($_POST["$field"]) < 3) {
-          array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti kraće od 3 znaka!");
-        }
+          if ($field == "usr-password") {
 
-        $user->set_username(trim(htmlspecialchars(strip_tags($_POST["$field"]))));
-        if (!empty($id)) {
-          $user->set_id(trim(htmlspecialchars(strip_tags($id))));
-        }
-        if (!$user->isUniqueUsername()) {
-          array_push($errors, "Korisničko ime već je zauzeto!");
-        }
+            if (strlen($_POST["$field"]) < 6) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 6 znakova!");
+            }
 
-        $allowed = array("_");
+            $allowed = array("_", "-", ".", "@");
 
-        if (!ctype_alnum(str_replace($allowed, '', $_POST["$field"]))) {
-          array_push($errors, "Neispravno korisničko ime!");
-        }
+            if (!ctype_alnum(str_replace($allowed, '', $_POST["$field"]))) {
+              array_push($errors, "Neispravna lozinka!");
+            }
 
-        if (!preg_match("#[A-Za-z]+#", $_POST["$field"])) {
-          array_push($errors, "Korisničko ime mora sadržavati barem jedno slovo!");
-        }
-      }
-
-      if ($field == "usr-password") {
-
-        if (strlen($_POST["$field"]) < 6) {
-          array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 6 znakova!");
-        }
-
-        $allowed = array("_", "-", ".", "@");
-
-        if (!ctype_alnum(str_replace($allowed, '', $_POST["$field"]))) {
-          array_push($errors, "Neispravna lozinka!");
-        }
-
-        if (!preg_match("#[A-Z]+#", $_POST["$field"])) {
-          array_push($errors, "Lozinka mora sadržavati barem jedno veliko slovo!");
-        } else if (!preg_match("#[a-z]+#", $_POST["$field"])) {
-          array_push($errors, "Lozinka mora sadržavati barem jedno malo slovo!");
-        } else if (!preg_match("#[-_.@]+#", $_POST["$field"])) {
-          array_push($errors, "Lozinka mora sadržavati barem jedan posebni znak!");
-        } else if (!preg_match("#[0-9]+#", $_POST["$field"])) {
-          array_push($errors, "Lozinka mora sadržavati barem jednu znamenku!");
-        }
+            if (!preg_match("#[A-Z]+#", $_POST["$field"])) {
+              array_push($errors, "Lozinka mora sadržavati barem jedno veliko slovo!");
+            } else if (!preg_match("#[a-z]+#", $_POST["$field"])) {
+              array_push($errors, "Lozinka mora sadržavati barem jedno malo slovo!");
+            } else if (!preg_match("#[-_.@]+#", $_POST["$field"])) {
+              array_push($errors, "Lozinka mora sadržavati barem jedan posebni znak!");
+            } else if (!preg_match("#[0-9]+#", $_POST["$field"])) {
+              array_push($errors, "Lozinka mora sadržavati barem jednu znamenku!");
+            }
+          }
+          break;
+        case "Lesson":
+          $less = new Lesson($db);
+          if ($field == "less-name") {
+            if (strlen($_POST["$field"]) > 100) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti duže od 100 znakova!");
+            }
+            $less->set_name(trim(htmlspecialchars(strip_tags($_POST["$field"]))));
+            if (!empty($id)) {
+              $less->set_language_id(trim(htmlspecialchars(strip_tags($id))));
+              // set id
+            }
+            if (!$less->isUniqueName()) {
+              array_push($errors, "Već postoji lekcija sa istim nazivom!");
+            }
+          }
+          if ($field == "less-desc") {
+            if (strlen($_POST["$field"]) < 100) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' mora sadržavati minimalno 100 znakova!");
+            }
+          }
+          break;
+        case "Question":
+          $quest = new Question($db);
+          if ($field == "quest-name") {
+            if (strlen($_POST["$field"]) < 10) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' ne smije biti kraće od 10 znakova!");
+            }
+          }
+          if ($field == "quest-type") {
+            if ($_POST["$field"]==0) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno polje!");
+            }
+          }
+          if ($field == "quest-less") {
+            if ($_POST["$field"]==0) {
+              array_push($errors, "Polje '" . $form_names[$count] . "' je obavezno polje!");
+            }
+          }
+          break;
       }
     }
 

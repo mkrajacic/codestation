@@ -5,7 +5,13 @@
     //$output = system('cd ../node_modules/cors-anywhere/lib/ && npm run start');
 
     $output = shell_exec('cd ../node_modules/cors-anywhere/lib/ && npm run start');
-    echo $output . "<br>";
+    //echo $output . "<br>";
+
+    if(empty($output)) {
+        echo "greška pri pripremi za kodiranje<br>";
+    }else{
+        echo "upišite kod<br>";
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,7 +20,7 @@
 
     <head>
     </head>
-    <textarea id="code"></textarea>
+    <textarea id="code" rows=8></textarea>
     <button onclick="UserAction()" id="run">Run</button>
 
 </body>
