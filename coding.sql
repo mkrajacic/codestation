@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2021 at 06:15 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: Jun 10, 2021 at 04:50 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,6 +33,52 @@ CREATE TABLE `answer` (
   `question_id` int(11) NOT NULL,
   `correct` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `answer`
+--
+
+INSERT INTO `answer` (`id`, `answer`, `question_id`, `correct`) VALUES
+(1, 'is the', 3, 0),
+(2, 'best', 3, 1),
+(4, 'i', 3, 0),
+(5, 'love', 3, 1),
+(6, 'him', 3, 0),
+(7, 'kuragi', 3, 1),
+(8, 'machi', 3, 0),
+(9, 'honda', 3, 1),
+(10, 'tohru', 3, 0),
+(11, 'kuragi', 3, 1),
+(12, 'san', 3, 0),
+(13, 'qui', 3, 0),
+(14, 'ci', 3, 0),
+(15, 'sono', 3, 1),
+(16, 'le risposte', 3, 0),
+(17, 'tout', 9, 0),
+(18, 'l\'universe', 9, 0),
+(19, 'tout', 3, 1),
+(20, 'l', 3, 0),
+(21, 'uni', 3, 0),
+(22, 'verse', 3, 0),
+(23, 'ecco', 9, 0),
+(24, 'le', 9, 0),
+(25, 'risposte', 9, 1),
+(26, 'ci', 9, 0),
+(27, 'sono', 9, 0),
+(28, 'le risposte', 9, 1),
+(29, 'dotter', 9, 1),
+(30, 'de', 9, 0),
+(31, 'forest', 9, 0),
+(32, 'Točno', 11, 0),
+(33, 'Netočno', 11, 1),
+(34, 'Prvi odgovor', 12, 0),
+(35, 'Drugi odgovor', 12, 1),
+(36, 'Treći odgovor', 12, 0),
+(37, 'Četvrti odgovor', 12, 0),
+(38, 'Peti odgovor', 12, 1),
+(39, 'Šesti odgovor', 12, 0),
+(40, 'Neki odgovor', 13, 1),
+(41, 'print(4)', 14, 1);
 
 -- --------------------------------------------------------
 
@@ -76,7 +122,8 @@ INSERT INTO `lesson` (`id`, `name`, `description`, `language_id`) VALUES
 (4, 'this is a lesson', 'this is a desc of the lesson this is a desc of the lesson this is a desc of the lesson this is a desc of the lesson', 1),
 (5, 'this is a lesson once again', 'this is a desc of the lesson this is a desc of the lnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnesson this is a', 3),
 (6, 'this is a lesson agan', 'this is a desc of the lesson this is a desc of the lessothis is a desc of the lesson this is a desc of the lesson this is a desc of the lesson n', 3),
-(7, 'fruits basket', 'gatiru hatori gatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatori', 3);
+(7, 'fruits basket', 'gatiru hatori gatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatorigatiru hatori', 3),
+(8, 'Test lekcija', 'This is actually for real ok. This is actually for real ok. This is actually for real ok. This is actually for real ok.', 1);
 
 -- --------------------------------------------------------
 
@@ -96,8 +143,14 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`id`, `question`, `lesson_id`, `question_type`) VALUES
-(3, 'sohma yuki', 7, 4),
-(6, 'Crimea is ______?', 6, 3);
+(3, 'sohma yuki', 4, 1),
+(6, 'Crimea is ______?', 6, 3),
+(9, 'seyo seyo seyo seyo kono pelechki?', 4, 2),
+(10, 'iskodiraj mi elif u pythonu', 4, 4),
+(11, 'Pitanje sa jednim točnim odgovorom', 8, 1),
+(12, 'Pitanje sa više točnih odgovora', 8, 2),
+(13, 'Pitanje sa nadopunjavanjem', 8, 3),
+(14, 'Pitanje sa kodiranjem', 8, 4);
 
 -- --------------------------------------------------------
 
@@ -296,7 +349,7 @@ ALTER TABLE `user_session_question`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `language`
@@ -308,13 +361,13 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `lesson`
 --
 ALTER TABLE `lesson`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `question_type`
