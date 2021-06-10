@@ -1,6 +1,6 @@
 <?php
-include_once("functions.php");
-include_once("class/question.php");
+include_once("../functions.php");
+include_once("../class/question.php");
 $db = connect();
 
 if (isset($_POST['id'])) {

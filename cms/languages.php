@@ -1,8 +1,8 @@
 <?php
 $title = "Jezici";
 include_once("header.php");
-include_once("class/language.php");
-include_once("class/user.php");
+include_once("../class/language.php");
+include_once("../class/user.php");
 $db = connect();
 session_start();
 

@@ -115,7 +115,8 @@ CREATE TABLE `question_type` (
 --
 
 INSERT INTO `question_type` (`id`, `type`) VALUES
-(1, 'Ponuđeni odgovori'),
+(1, 'Jedan točan'),
+(2, 'Više točnih'),
 (3, 'Nadopunjavanje'),
 (4, 'Kodiranje');
 

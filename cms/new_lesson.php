@@ -1,7 +1,7 @@
 <?php
 $title = "Nova lekcija";
 include_once("header.php");
-include_once("class/lesson.php");
+include_once("../class/lesson.php");
 session_start();
 $db = connect();
 

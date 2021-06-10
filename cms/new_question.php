@@ -1,8 +1,8 @@
 <?php
 $title = "Novo pitanje";
 include_once("header.php");
-include_once("class/question.php");
-include_once("class/question_type.php");
+include_once("../class/question.php");
+include_once("../class/question_type.php");
 $db = connect();
 
 if (isset($_GET['lid'])) {

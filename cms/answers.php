@@ -1,11 +1,11 @@
 <?php
 $title = "Odgovori";
 include_once("header.php");
-include_once("class/language.php");
-include_once("class/lesson.php");
-include_once("class/question.php");
-include_once("class/answer.php");
-include_once("class/user.php");
+include_once("../class/language.php");
+include_once("../class/lesson.php");
+include_once("../class/question.php");
+include_once("../class/answer.php");
+include_once("../class/user.php");
 $db = connect();
 session_start();
 

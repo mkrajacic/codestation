@@ -1,5 +1,5 @@
 <?php
-$title = "Administracija";
+$title = "The actual app I guess";
 include_once("header.php");
 include_once("../class/user.php");
 $db = connect();
@@ -7,8 +7,8 @@ session_start();
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     if (check_user_status() == 1) {
-        $menu_items['main'] = array('Jezici', 'Korisnici', 'Ovlasti');
-        $menu_links['main'] = array('languages.php', 'users.php', 'roles.php');
+        $menu_items['main'] = array('Jezici');
+        $menu_links['main'] = array('languages.php');
     } else if (check_user_status() == 2) {
         $menu_items['main'] = array('Jezici');
         $menu_links['main'] = array('languages.php');

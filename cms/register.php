@@ -1,7 +1,7 @@
 <?php
 $title = "Registracija";
 include_once("header.php");
-include_once("class/user.php");
+include_once("../class/user.php");
 $db = connect();
 
 session_start();

@@ -299,6 +299,9 @@ function validate($form_fields, $form_names, $db, $id = null, $type)
             }
           }
           break;
+        case "Answer":
+          
+          break;
       }
     }
 

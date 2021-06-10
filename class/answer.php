@@ -143,7 +143,7 @@ class Answer
 
         $stmt = $this->conn->prepare($query);
 
-        $this->answer = trim(htmlspecialchars(strip_tags($this->answer)));
+        $this->answer = trim($this->answer);
         $this->question_id = trim(htmlspecialchars(strip_tags($this->question_id)));
         $this->correct = trim(htmlspecialchars(strip_tags($this->correct)));
 
@@ -173,7 +173,7 @@ class Answer
 
                 $stmt = $this->conn->prepare($query);
 
-                $this->answer = trim(htmlspecialchars(strip_tags($this->answer)));
+                $this->answer = trim($this->answer);
                 $this->question_id = trim(htmlspecialchars(strip_tags($this->question_id)));
                 $this->correct = trim(htmlspecialchars(strip_tags($this->correct)));
 

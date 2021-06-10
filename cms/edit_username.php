@@ -1,6 +1,6 @@
 <?php
-include_once("functions.php");
-include_once("class/user.php");
+include_once("../functions.php");
+include_once("../class/user.php");
 $db = connect();
 if (isset($_POST['user-name-id'])) {
     $user_id = (int)$_POST['user-name-id'];

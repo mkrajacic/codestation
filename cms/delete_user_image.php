@@ -1,6 +1,6 @@
 <?php
-include_once("functions.php");
-include_once("class/user.php");
+include_once("../functions.php");
+include_once("../class/user.php");
 $db = connect();
 session_start();
 

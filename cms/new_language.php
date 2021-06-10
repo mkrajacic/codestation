@@ -1,7 +1,7 @@
 <?php
 $title = "Novi jezik";
 include_once("header.php");
-include_once("class/language.php");
+include_once("../class/language.php");
 $db = connect();
 
 if (isset($_POST['submitted'])) {
