@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+                body{
+            overflow: hidden;
+            background-color: #02142f!important;
+        }
+
+        .tooltip{
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+        }
+
+        .tooltip-inner{
+            color:#fffdc0;
+        }
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        body h3{
+            font-family: 'VT323', monospace;
+            font-size: 38px;
+            color:#fffdc0;
+        }
+
+        h3 a{
+            text-decoration: none;
+            color: #fffdc0;
+        }
+
+        h3 a:hover{
+            color: #fffb8a;
+        }
+
+        body main{
+            font-family: 'VT323', monospace;
+        }
+
+        .lead{
+            font-size: 28px;
+        }
+
+        #learn{
+            color:#fffdc0;
+        }
+
+        body nav{
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        body footer{
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .invalid-feedback{
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .valid-feedback{
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        label{
+            font-size: 24px;
+        }
+
+        .floating {
+            position: absolute;
+            bottom: 20vw;
+            left: 0;
+            width: 100%;
+            height: 100vw;
+            z-index: -1;
+        }
+
+        .floating svg {
+            position: absolute;
+            display: block;
+            animation: animate 25s linear infinite;
+            bottom: calc(-150px - 40vh);
+        }
+
+        .floating svg text{
+            font-family: 'VT323', monospace;
+            fill: #4796ff;
+            font-size: 34px;
+        }
+
+        .floating svg:nth-child(1) {
+            left: 25%;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+
+        .floating svg:nth-child(2) {
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .floating svg:nth-child(3) {
+            left: 70%;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+
+        .floating svg:nth-child(4) {
+            left: 40%;
+            animation-delay: 0s;
+            animation-duration: 15s;
+        }
+
+        .floating svg:nth-child(5) {
+            left: 65%;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+
+        .floating svg:nth-child(6) {
+            left: 75%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .floating svg:nth-child(7) {
+            left: 35%;
+            animation-delay: 0s;
+            animation-duration: 30s;
+        }
+
+        .floating svg:nth-child(8) {
+            left: 50%;
+            animation-delay: 0s;
+            animation-duration: 35s;
+        }
+
+        .floating svg:nth-child(9) {
+            left: 20%;
+            animation-delay: 0s;
+            animation-duration: 40s;
+        }
+
+        .floating svg:nth-child(10) {
+            left: 85%;
+            animation-delay: 0s;
+            animation-duration: 45s;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translateY(-60vh) rotate(360deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-120vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+

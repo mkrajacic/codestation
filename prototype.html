@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+        body {
+            background-color: black;
+        }
+
+        #wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.609);
+            position: relative;
+        }
+
+        #outer {
+            width: 80vw;
+            height: 75vh;
+            border: 3.5px solid #00C5FF;
+            background-color: #1d1c1c;
+            border-radius: 85px;
+        }
+
+        #answers {
+            display: grid;
+            width: 50%;
+            position: relative;
+            margin: 6vw auto;
+            grid-column-gap: 12%;
+            grid-row-gap: 60%;
+            grid-template-columns: 50% 50%;
+            color: white;
+            font-size: 18px;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        #upper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 24px;
+            position: absolute;
+            align-self: flex-start;
+            margin-top: 3.5vw;
+            width: 55vw;
+            height: auto;
+            border: 3.5px solid #feffff;
+            background-color: #1d1c1c;
+            border-radius: 35px;
+        }
+
+        #upper-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 3.8vw;
+            color: white;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 38px;
+            width: 5.5vw;
+            height: 9vh;
+            border: 3.5px solid #feffff;
+            background-color: #1d1c1c;
+            border-radius: 35px;
+        }
+
+        #upper-right {
+            right: 11vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 3.8vw;
+            color: white;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 38px;
+            width: 5.5vw;
+            height: 9vh;
+            border: 3.5px solid #feffff;
+            background-color: #b70047;
+            border-radius: 35px;
+        }
+
+        #left {
+            color: white;
+            position: absolute;
+            left: 5.5vw;
+            width: 6vw;
+            height: 55vh;
+            border: 3.5px solid #00C5FF;
+            background-color: #000000;
+            border-radius: 85px;
+        }
+
+        #menu {
+            margin-top: 8vh;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14vh;
+        }
+
+        #menu svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .bi-arrow-right-square {
+            fill: #ecef34
+        }
+
+        .bi-check-square {
+            fill: #0df569;
+        }
+
+        .bi-arrow-return-left {
+            fill: aliceblue;
+        }
+
+        #bottom {
+            position: absolute;
+            align-self: flex-end;
+            margin-bottom: 3vw;
+            width: 65vw;
+            height: 30vh;
+            border: 3.5px solid #feffff;
+            background-color: #1d1c1c;
+            border-radius: 60px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .container-text {
+            padding: 3%;
+            overflow-wrap: anywhere;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="left">
+            <div id="menu">
+                <!-- back -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-return-left"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z" />
+                </svg>
+                <!-- send answer -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-check-square"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                    <path
+                        d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z" />
+                </svg>
+                <!-- next -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-right-square"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                </svg>
+                <!-- skip -->
+                <!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-skip-forward" viewBox="0 0 16 16">
+                    <path
+                        d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.752l-6.267 3.636c-.52.302-1.233-.043-1.233-.696v-2.94l-6.267 3.636C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696L7.5 7.248v-2.94c0-.653.713-.998 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5zM1 4.633v6.734L6.804 8 1 4.633zm7.5 0v6.734L14.304 8 8.5 4.633z" />
+                </svg>-->
+            </div>
+        </div>
+        <div id="upper">
+            <div class="container-text">
+                ecco una domanda
+            </div>
+        </div>
+        <div id="upper-right">
+            3
+        </div>
+        <div id="outer">
+            <div id="upper-left">
+                15
+            </div>
+            <div id="answers">
+                <div class="answer">
+                    item
+                    <input type="text">
+                    <input type="checkbox">
+                </div>
+                <!-- <div class="answer">
+                    item
+                    <input type="text">
+                    <input type="checkbox">
+                </div>
+                <div class="answer">
+                    item
+                    <input type="text">
+                    <input type="checkbox">
+                </div>
+                <div class="answer">
+                    item
+                    <input type="text">
+                    <input type="checkbox">
+                </div>
+                <div class="answer">
+                    item
+                    <input type="text">
+                    <input type="checkbox">
+                </div>
+                <div class="answer">
+                    item
+                    <input type="text">
+                    <input type="checkbox">
+                </div>
+                <div class="answer">
+                    item
+                    <input type="text">
+                    <input type="checkbox">
+                </div>
+                <div class="answer">
+                    item
+                    <input type="text">
+                    <input type="checkbox">
+                </div> -->
+            </div>
+        </div>
+        <div id="bottom">
+            <div class="container-text">
+                ghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhggghfghdfdhgg
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
