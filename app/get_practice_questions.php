@@ -1,16 +1,10 @@
 <?php
 include_once("../functions.php");
-include_once("../class/lesson.php");
-include_once("../class/answer.php");
-include_once("../class/coding_answer.php");
-include_once("../class/question.php");
-include_once("../class/question_type.php");
-include_once("../class/user_progress_question.php");
-include_once("../class/user_progress_lesson.php");
-include_once("../class/user_progress_language.php");
-
 $db = connect();
 session_start();
+$include_paths = ['../class/lesson.php', '../class/answer.php', '../class/coding_answer.php', '../class/question.php', '../class/question_type.php', '../class/user_progress_question.php', '../class/user_progress_lesson.php', '../class/user_progress_language.php'];
+foreach ($include_paths as $path)
+    include_once($path);
 
 $nmbrofQuestions = 15;
 $qids = array();

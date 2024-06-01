@@ -1,10 +1,12 @@
 <?php
-$title = "Prijava";
-include_once("../functions.php");
-include_once("../class/user.php");
+include_once('../functions.php');
 $db = connect();
-
 session_start();
+$title = "Prijava";
+$include_paths = ['../class/user.php', 'header_index.php'];
+foreach ($include_paths as $path)
+    include_once($path);
+
 if (check_user_status() != 0) {
     if (!(isset($_SESSION['fresh-login']) && !($_SESSION['fresh-login'] == 1))) {
         $_SESSION['redirect_message'] = "Već ste ulogirani u sustav!";
@@ -54,8 +56,6 @@ if (isset($_POST['submitted'])) {
         }
     }
 }
-
-header_index($title);
 ?>
 
 <body class="d-flex h-100 text-center text-white">
@@ -64,49 +64,50 @@ header_index($title);
         index_menu(0);
         ?>
 
-<main class="px-3" style="margin-bottom:24vw !important">
-<h1 class="mt-4">Prijava</h1>
+        <main class="px-3" style="margin-bottom:24vw !important">
+            <h1 class="mt-4">Prijava</h1>
 
-<form method="POST" action="">
-            <?php
-            if (isset($errors)) {
+            <form method="POST" action="">
+                <?php
+                if (isset($errors)) {
 
-                if (sizeof($errors) > 0) {
+                    if (sizeof($errors) > 0) {
 
-                    foreach ($errors as $err) {
-            ?>
-                        <div class="invalid-feedback" style="display:block; font-size:16px">
-                            <?php
-                            echo $err;
-                            ?>
-                        </div>
-                    <?php
-                    }
-                } else {
-                    if (isset($user)) {
+                        foreach ($errors as $err) {
+                ?>
+                            <div class="invalid-feedback" style="display:block; font-size:16px">
+                                <?php
+                                echo $err;
+                                ?>
+                            </div>
+                        <?php
+                        }
+                    } else {
+                        if (isset($user)) {
 
-                        login($user);
-                    ?>
-            <?php
+                            login($user);
+                        ?>
+                <?php
+                        }
                     }
                 }
-            }
-            ?>
-            <input type="hidden" name="submitted" id="submitted">
-            <div class="form-group">
-                <label for="usr-username">Korisničko ime</label>
-                <input type="text" class="form-control w-50 m-auto" id="login-username" name="login-username" placeholder="Upišite korisničko ime" <?php if (isset($_POST['login-username'])) { ?> value="<?php echo $_POST['login-username'] ?>" <?php } ?>>
-            </div>
-            <div class="form-group">
-                <label for="login-password">Lozinka</label>
-                <input type="password" class="form-control w-50 m-auto" id="login-password" name="login-password" placeholder="Upišite lozinku" <?php if (isset($_POST['login-password'])) { ?> value="<?php echo $_POST['login-password'] ?>" <?php } ?>>
-            </div>
-            <button type="submit" class="mt-3 btn btn-lg btn-secondary fw-bold" style="background-color: #fffdc0;">Prijava</button>
-        </form>
-</main>
+                ?>
+                <input type="hidden" name="submitted" id="submitted">
+                <div class="form-group">
+                    <label for="usr-username">Korisničko ime</label>
+                    <input type="text" class="form-control w-50 m-auto" id="login-username" name="login-username" placeholder="Upišite korisničko ime" <?php if (isset($_POST['login-username'])) { ?> value="<?php echo $_POST['login-username'] ?>" <?php } ?>>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Lozinka</label>
+                    <input type="password" class="form-control w-50 m-auto" id="login-password" name="login-password" placeholder="Upišite lozinku" <?php if (isset($_POST['login-password'])) { ?> value="<?php echo $_POST['login-password'] ?>" <?php } ?>>
+                </div>
+                <button type="submit" class="mt-3 btn btn-lg btn-secondary fw-bold" style="background-color: #fffdc0;">Prijava</button>
+            </form>
+        </main>
     </div>
 </body>
 
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 </html>

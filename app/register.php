@@ -1,10 +1,11 @@
 <?php
-$title = "Registracija";
 include_once("../functions.php");
-include_once("../class/user.php");
 $db = connect();
-
 session_start();
+$title = "Registracija";
+$include_paths = ['../class/user.php', 'header_index.php'];
+foreach ($include_paths as $path)
+    include_once($path);
 
 if (isset($_SESSION['deactivated'])) {
     $_SESSION = array();
@@ -38,8 +39,6 @@ if (isset($_POST['submitted'])) {
         array_push($errors, "Upisane lozinke se ne podudaraju!");
     }
 }
-
-header_index($title);
 ?>
 
 <body class="d-flex h-100 text-center text-white">
@@ -111,4 +110,5 @@ header_index($title);
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="js/tooltip_init.js"></script>
+
 </html>

@@ -14,9 +14,7 @@ function connect()
   }
   return $conn;
 }
-?>
 
-<?php
 function generateToken()
 {
   if (empty($_SESSION['ct']) || ($_SESSION['expireIn'] <= time())) {
@@ -25,9 +23,7 @@ function generateToken()
   }
   return $_SESSION['ct'];
 }
-?>
 
-<?php
 function checkTokenTime()
 {
   if (!empty($_SESSION['ct'])) {
@@ -161,66 +157,6 @@ function index_menu($user_id)
       </nav>
     </div>
   </header>
-<?php
-}
-?>
-
-<?php
-function floating_background()
-{  ?>
-  <div class="floating">
-    <svg height="60" width="200">
-      <text x="0" y="25" id="keywords1"></text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25">$ ruby</text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25" id="languages1"></text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25" id="keywords2"></text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25">class Learn</text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25">$a++;</text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25">INSERT INTO table</text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25" id="languages2">alert('fun');</text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25">def funct</text>
-    </svg>
-    <svg height="60" width="200">
-      <text x="0" y="25" id="keywords3"></text>
-    </svg>
-  </div>
-<?php
-}
-?>
-
-<?php
-function header_index($title)
-{
-?>
-  <!doctype html>
-  <html lang="en" class="h-100">
-
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Web application for code learning">
-    <meta name="author" content="MK">
-    <title><?php echo $title ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="css/index.css" rel="stylesheet">
-    <link href="css/cover.css" rel="stylesheet">
-  </head>
 <?php
 }
 ?>
