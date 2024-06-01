@@ -59,12 +59,7 @@ $alphas = range('A', 'Z');
         </div>
     <?php }  ?>
     <div class="profile-button">
-        <?php user_header($user_id, htmlspecialchars(strip_tags($user_name)), $db); ?>
-        <img id="navbarDropdown" data-toggle="dropdown" aria-expanded="false" class="center avi" width="50" height="auto" src="<?php if (!is_null($avi)) {
-                                                                                                                                    echo "../cms/img/user/" . $avi;
-                                                                                                                                } else {
-                                                                                                                                    echo "img/default.jpg";
-                                                                                                                                } ?>">
+        <?php user_header($user_id, htmlspecialchars(strip_tags($user_name)), $db, $avi); ?>
     </div>
     <div id="upper-list" class="languages">
         <div class="container-text languages">Popis programskih jezika</div>

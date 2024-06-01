@@ -53,20 +53,14 @@ $lesson_progress = new LessonProgress($db);
 $lesson_progress->set_lesson_id($lesson_id);
 $lesson_progress->set_user_id($user_id);
 
-$lesson_progress_stmt = $lesson_progress->getProgressByLesson();
-if ($lesson_progress_stmt) {
+if ($lesson_progress->getProgressByLesson())
     $passed = true;
-}
 
 $lesson_progress->set_lesson_id($prec);
-
-
-$lesson_progress_prec_stmt = $lesson_progress->getProgressByLesson();
-if ($lesson_progress_prec_stmt) {
+if ($lesson_progress->getProgressByLesson())
     $passed_precondition = true;
-}
 
-if (($passed) || ($precondition == 0) || ($passed_precondition)) {
+if (($passed) || ($precondition == 0) || ($passed_precondition)) :
 ?>
     <div id="wrapper-list">
         <div class="back-button">
@@ -75,35 +69,27 @@ if (($passed) || ($precondition == 0) || ($passed_precondition)) {
             </svg>
         </div>
         <div class="profile-button">
-            <?php user_header($user_id, htmlspecialchars(strip_tags($user_name)), $db); ?>
-            <img id="navbarDropdown" data-toggle="dropdown" aria-expanded="false" class="center avi" width="50" height="auto" src="<?php if (!is_null($avi)) {
-                                                                                                                                        echo "../cms/img/user/" . $avi;
-                                                                                                                                    } else {
-                                                                                                                                        echo "img/default.jpg";
-                                                                                                                                    } ?>">
+            <?php user_header($user_id, htmlspecialchars(strip_tags($user_name)), $db, $avi); ?>
         </div>
         <div id="upper-list">
-        <div id="upper-practice" class="startButton" data-name="l-<?php echo $id; ?>">
-            <div class="container-text">Start</div><svg class="upper-icon" width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path class="start-outer" fill-rule="evenodd" clip-rule="evenodd" d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" />
-                <path d="M16 12L10 16.3301V7.66987L16 12Z" fill="currentColor" />
-            </svg>
-        </div>
+            <div id="upper-practice" class="startButton" data-name="l-<?php echo $id; ?>">
+                <div class="container-text">Start</div><svg class="upper-icon" width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="start-outer" fill-rule="evenodd" clip-rule="evenodd" d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" />
+                    <path d="M16 12L10 16.3301V7.66987L16 12Z" fill="currentColor" />
+                </svg>
+            </div>
             <div class="container-text"><?php echo htmlspecialchars(strip_tags($less_name)); ?></div>
         </div>
         <div id="outer-details">
             <div id="cards" class="details">
-                <div class="details-desc"><span><?php
-                $clean_desc = $purifier->purify($description);
-                 echo $clean_desc;
-                 ?></span></div>
+                <div class="details-desc"><span><?php echo $purifier->purify($description); ?></span></div>
             </div>
         </div>
     </div>
 
 <?php
     include_once("footer.php");
-} else {
+else :
     header_redirect();
-}
+endif;
 ?>

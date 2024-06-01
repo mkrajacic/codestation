@@ -54,29 +54,19 @@ if ($language_stmt) {
         </svg>
     </div>
     <div class="profile-button">
-        <?php user_header($user_id, htmlspecialchars(strip_tags($user_name)), $db); ?>
-        <img id="navbarDropdown" data-toggle="dropdown" aria-expanded="false" class="center avi" width="50" height="auto" src="<?php if (!is_null($avi)) {
-                                                                                                                                    echo "../cms/img/user/" . $avi;
-                                                                                                                                } else {
-                                                                                                                                    echo "img/default.jpg";
-                                                                                                                                } ?>">
+        <?php user_header($user_id, htmlspecialchars(strip_tags($user_name)), $db, $avi); ?>
     </div>
     <div id="upper-list" class="languages">
-    <div id="upper-practice" class="lessonButton" data-name="l-<?php echo $language_id; ?>">
-        <div class="container-text">Lekcije</div><svg class="upper-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1H1V9H9V6H11V20H15V23H23V15H15V18H13V6H15V9H23V1H15V4H9V1ZM21 3H17V7H21V3ZM17 17H21V21H17V17Z" />
-        </svg>
-    </div>
-        <div class="container-text languages"><?php
-         echo htmlspecialchars(strip_tags($language_name)); 
-         ?></div>
+        <div id="upper-practice" class="lessonButton" data-name="l-<?php echo $language_id; ?>">
+            <div class="container-text">Lekcije</div><svg class="upper-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1H1V9H9V6H11V20H15V23H23V15H15V18H13V6H15V9H23V1H15V4H9V1ZM21 3H17V7H21V3ZM17 17H21V21H17V17Z" />
+            </svg>
+        </div>
+        <div class="container-text languages"><?php echo htmlspecialchars(strip_tags($language_name)); ?></div>
     </div>
     <div id="outer-details">
         <div id="cards" class="details">
-            <div class="details-desc"><span><?php
-            $clean_desc = $purifier->purify($description);
-             echo $clean_desc; 
-             ?></span></div>
+            <div class="details-desc"><span><?php echo $purifier->purify($description); ?></span></div>
         </div>
     </div>
 </div>
